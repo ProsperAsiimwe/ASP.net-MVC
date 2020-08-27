@@ -1,0 +1,22 @@
+﻿@model bool?
+@{ 
+    string fieldName = ViewData.TemplateInfo.HtmlFieldPrefix;
+    string fieldId = fieldName.Replace(".", "_");
+    string selected = @" checked=""checked""";
+    string labelText = ViewData["labelText"] != null ? ViewData["labelText"].ToString() : Html.DisplayNameFor(m => m).ToString();
+    bool _checked = ViewData["checked"] != null ? (bool)ViewData["checked"] : false;
+    bool labels = (string.IsNullOrEmpty(labelText));
+}
+
+<div class="row panel-checkbox">
+    <div class="ap-switch-row col-xs-12">
+        <div class="switch @(labels ? "labels" : "")">
+            @*@Html.Bootstrap().CheckBoxFor(m => m).Id(fieldId).Class("cmn-toggle cmn-toggle-round").IsChecked((Model.HasValue && Model.Value) || (_checked))*@
+            <input name="@fieldName" value="true" id="@fieldId" class="cmn-toggle cmn-toggle-round" type="checkbox" @((Model.HasValue && Model.Value) || (_checked) ? Html.Raw(selected) : null) />
+            <label for="@fieldId"></label>
+            <input type="hidden" name="@fieldName" value="false" />
+        </div>
+        <div class="ap-checkbox-label">@labelText</div>
+    </div>
+    @Html.ValidationMessageFor(m => m)
+</div>

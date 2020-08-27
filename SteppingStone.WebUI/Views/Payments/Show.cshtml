@@ -1,0 +1,43 @@
+﻿@model SteppingStone.Domain.Entities.Payment
+@{
+    ViewBag.Title = "Payment: " + Model.Student.FullName;
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Payment">Payment Details</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Payment" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    @Html.Partial("Partials/_Summary", Model)
+                </div>
+            </div>            
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { PaymentId = Model.PaymentId })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Edit Payment", "Edit").RouteValues(new { PaymentId = Model.PaymentId }).AppendIcon("fa fa-edit")</li>
+<li>@Html.Bootstrap().ActionLink("Delete Payment", "Delete").RouteValues(new { PaymentId = Model.PaymentId }).AppendIcon("fa fa-remove")</li> 
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Payments_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { PaymentId = Model.PaymentId, mainAsLink = false })
+}
+

@@ -1,0 +1,68 @@
+﻿@model SteppingStone.WebUI.Models.Messages.MessageViewModel
+@{
+//string action, cancel_url, buttonText, instr, glyph;
+////bool isAdmin = PageData["isAdmin"];
+
+//if (Model.MessageId > 0)
+//{
+//    cancel_url = Url.Action("Show", new { MessageId = Model.MessageId });
+//    action = "Update";
+//    buttonText = "Update Message";
+//    instr = "Modify the details and click Update to apply changes";
+//    glyph = "glyphicon glyphicon-thumbs-up";
+//    ViewBag.Title = "Update Message";
+//}
+//else
+//{
+//    cancel_url = Url.Action("Index");
+//    action = "Create";
+//    buttonText = "Create Message";
+//    instr = "Complete the form below and click Create to add a new Message";
+//    glyph = "glyphicon glyphicon-plus";
+//    ViewBag.Title = "New Message";
+//}
+}
+
+@*<div class="section-light">
+    <div class="container">
+        
+    </div>
+</div>*@
+
+<div class="form-light-bg form-container">
+    @Html.ValidationSummary(true)
+    @using (var f = Html.Bootstrap().Begin(new Form("Create").FormMethod(FormMethod.Post).Id("new-record-form")))
+    {
+        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MessageId)
+
+        <fieldset>
+            <legend>Message details</legend>
+            @f.FormGroup().TextAreaFor(x => x.MessageDescription)
+        </fieldset>
+
+        <fieldset>
+            <legend>... details</legend>
+            <div class="alert alert-warning">
+                Specify the date you wish the message to be sent
+            </div>
+            @f.FormGroup().EditorFor(x => x.Scheduled)
+            @f.FormGroup().EditorFor(x => x.SendNow)
+
+        </fieldset>
+        <div class="form-submit">
+            @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text("Add Message").AppendIcon("glyphicon glyphicon-plus")
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        $.validator.unobtrusive.parse("#new-record-form");
+    })
+</script>
+
+
+
+

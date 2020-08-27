@@ -1,0 +1,91 @@
+﻿@model SteppingStone.WebUI.Models.ClassLevels.ClassLevelViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.ClassLevelId > 0) {
+        cancel_url = Url.Action("Show", new { ClassLevelId = Model.ClassLevelId });
+        action = "Update";
+        buttonText = "Update Class";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Class";
+    }
+    else {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Class";
+        instr = "Complete the form below and click Create to add a new Class Level";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Class";
+    }
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+
+            @using (var f = Html.Bootstrap().Begin(new Form(action))) {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.ClassLevelId)
+
+                        <fieldset>
+                            <legend>Class Level details</legend>
+                            @Html.Bootstrap().LabelFor(m => m.SchoolLevel).ShowRequiredStar(true)
+                            @f.FormGroup().RadioButtonsFromEnumFor(m => m.SchoolLevel).DisplayInlineBlock().Label().Class("sr-only")
+                            <div id="half-day" class="">
+                                @f.FormGroup().EditorFor(m => m.HalfDay)
+                            </div>
+                            @f.FormGroup().TextBoxFor(m => m.Level).Placeholder().HtmlAttributes(new { type = "number" })
+                            @f.FormGroup().DropDownListFor(m => m.StudyMode, Model.StudyModes().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Study Mode")
+                        </fieldset>
+                       
+                    </div>
+                    <div class="col-md-6">                        
+                        <fieldset>
+                            <legend>... details</legend>
+                            <div class="alert alert-warning">
+                                Specify the fee amount for this class
+                            </div>
+                            @f.FormGroup().TextBoxFor(m => m.SchoolFee).Placeholder().HtmlAttributes(new { type = "number" })
+                        </fieldset>                       
+                    </div>
+
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/admin/nursery.js"></script>
+}
+
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+@if (Model.ClassLevelId > 0) {
+    Html.RenderAction("GetBreadcrumb", new { ClassLevelId = Model.ClassLevelId });
+    <li class="active">Edit Class Level</li>
+}
+else {    
+    <li>@Html.ActionLink("ClassLevels", "Index")</li>
+    <li class="active">New Class Level</li>
+}
+}

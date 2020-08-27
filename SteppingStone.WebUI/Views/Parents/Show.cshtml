@@ -1,0 +1,61 @@
+﻿@model SteppingStone.Domain.Entities.Parent
+@{
+    ViewBag.Title = "Parent: " + Model.FullName;
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Parent">Parent Details</a></li>
+            <li><a data-toggle="tab" href="#parents"><span class="label label-success">@Model.Students.Count</span> Pupil(s)</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Parent" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.Partial("Partials/_Summary", Model)
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div id="parents" class="tab-pane fade">
+                <div class="tabs-content">
+                   @Html.Partial("Partials/_Students", Model)
+                </div>
+            </div>
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { ParentId = Model.ParentId })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Edit Parent", "Edit").RouteValues(new { ParentId = Model.ParentId }).AppendIcon("fa fa-edit")</li>
+    @if (Model.Terminated.HasValue)
+    {
+        <li>@Html.Bootstrap().ActionLink("Restore Parentship", "Restore").RouteValues(new { ParentId = Model.ParentId }).AppendIcon("fa fa-plus")</li>
+    }
+    else
+    {
+        <li>@Html.Bootstrap().ActionLink("Terminate Parent", "Delete").RouteValues(new { ParentId = Model.ParentId }).AppendIcon("fa fa-remove")</li>
+    }
+
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Parents_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { ParentId = Model.ParentId, mainAsLink = false })
+}
+

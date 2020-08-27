@@ -1,0 +1,13 @@
+﻿@model SteppingStone.Domain.Entities.Event
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+    var name = Model.Name;
+}
+
+<li>@Html.ActionLink("Events", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(name, "Show", new { EventId = Model.EventId })</li>
+}
+else {
+    <li class="active">@name</li>
+}

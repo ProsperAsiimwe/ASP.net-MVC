@@ -1,0 +1,104 @@
+﻿@model SteppingStone.WebUI.Models.Parents.ParentViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.ParentId > 0)
+    {
+        cancel_url = Url.Action("Show", new { ParentId = Model.ParentId });
+        action = "Update";
+        buttonText = "Update Parent";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Parent";
+    }
+    else
+    {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Parent";
+        instr = "Complete the form below and click Create to add a new Parent";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Parent";
+    }
+}
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+            @using (var f = Html.Bootstrap().Begin(new Form(action)))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.ParentId)
+                        <fieldset>
+                            <legend>Parent details</legend>
+                            <div class="alert alert-warning">
+                                Provide Names as they appear on ID/Passport
+                            </div>
+                            @f.FormGroup().DropDownListFor(m => m.TitleId, Model.Titles.Select(x => new SelectListItem { Value = x, Text = x })).OptionLabel("Select title")
+                            @f.FormGroup().TextBoxFor(m => m.FirstName).Placeholder()
+                            @f.FormGroup().TextBoxFor(m => m.LastName).Placeholder()
+
+                            <legend>Contact details</legend>
+                            @f.FormGroup().EditorFor(m => m.Phone)
+                            @f.FormGroup().EditorFor(m => m.Mobile)
+                            @f.FormGroup().EditorFor(m => m.Email)
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            @*<legend>Address details</legend>
+                                @f.FormGroup().TextBoxFor(m => m.Line1).Placeholder()
+                                @f.FormGroup().TextBoxFor(m => m.Line2).Placeholder()
+                                @f.FormGroup().TextBoxFor(m => m.Line4).Placeholder()*@
+
+                            <legend>Pupils</legend>
+                            <div class="alert alert-warning">
+                                Search and select the Parent's Pupil(s).
+                            </div>
+                            @f.FormGroup().TextBox("Search Pupils").Placeholder("Search Pupils").Id("txtSearch")
+                            <div style="height: 200px; overflow-y: auto; overflow-x: hidden">
+                                <span id="spnCount"></span>
+                                @f.FormGroup().CheckBoxListFor(m => m.SelectedStudents, m => m.Students, Student => Student.StudentId, Student => Student.FullName).SelectedValues(Student => Model.SelectedStudents.Contains(Student.StudentId)).ContainerHtmlAttributes(new { id = "cblPupils", runat = "server" })
+                                <hr />
+                            </div>
+                            <span id="curCount" data-count="@Model.SelectedStudents.Count()">@Model.SelectedStudents.Count() Pupil(s) Selected</span>
+
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/admin/search.js"></script>
+}
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+    @if (Model.ParentId > 0)
+    {
+        Html.RenderAction("GetBreadcrumb", new { ParentId = Model.ParentId });
+        <li class="active">Edit Parent</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Parents", "Index")</li>
+        <li class="active">New Parent</li>
+    }
+}

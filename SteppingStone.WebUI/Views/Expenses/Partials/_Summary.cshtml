@@ -1,0 +1,17 @@
+﻿@model SteppingStone.Domain.Entities.Expense
+
+<aside class="panel-summary">
+    <h3>Expense details</h3>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.By)</dt>
+        <dd>@Model.By</dd>
+        <dt>@Html.DisplayNameFor(m => m.Amount)</dt>
+        <dd>@InputHelper.ParseMoney(Model.Amount)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Category)</dt>
+        <dd>@Model.CategoryValue</dd>  
+        <dt>@Html.DisplayNameFor(m => m.Description)</dt>
+        <dd>@Model.Description</dd>  
+        <dt>@Html.DisplayNameFor(m => m.Date)</dt>
+        <dd>@InputHelper.ParseDate(Model.Date, "ddd, dd MMM yyyy")</dd>        
+    </dl>
+</aside>

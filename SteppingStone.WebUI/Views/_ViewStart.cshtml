@@ -1,0 +1,7 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Whether the user is as Admin/Developer?
+    PageData["isAdmin"] = (User.IsInRole("Developer") || User.IsInRole("Admin"));
+    PageData["isCandidate"] = (User.IsInRole("Candidate"));
+}

@@ -1,0 +1,23 @@
+﻿@model MagicApps.Models.FileUploadModel
+@{ 
+    bool hasFile = (!string.IsNullOrEmpty(Model.ExistingFile));
+    string prefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    string fieldName = prefix + ".NewFile";
+    string fieldId = prefix + "_NewFile";
+}
+
+@Html.HiddenFor(m => m.ExistingFile)
+<div class="btn-file-panel @(hasFile ? "has-success has-feedback" : "")">
+    <label class="btn btn-file">
+        Browse <input type="file" name="@fieldName" id="@fieldId" style="display: none;">
+    </label>
+    <div class="upload-label">@(hasFile ? string.Format("Uploaded: {0}", System.IO.Path.GetFileName(Model.ExistingFile)) : "Upload a file")</div>
+    @if (hasFile) {
+        <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+    }
+</div>
+@if (hasFile) {
+    <div class="btn-file-remove">
+        @Html.EditorFor(m => m.RemoveExistingFile, templateName: "_Checkbox")
+    </div>
+}

@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - @Settings.COMPANY_NAME</title>
+    @Html.Partial("Layout/_Head")
+    <style type="text/css">
+        body {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <main>
+    @RenderBody()
+    </main>
+    @Html.Partial("Layout/_Scripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

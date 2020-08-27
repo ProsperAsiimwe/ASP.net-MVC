@@ -1,0 +1,27 @@
+﻿@model SteppingStone.Domain.Models.Address
+@{ 
+    // Parameters: 1. list of items; 2. Id field (passed to controller); 3. Display field (value that user sees); 4. Selected value
+    var countries = new SelectList(Model.Countries, "CountryId", "CountryName", Model.CountryId);
+}
+
+<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.Line1).Placeholder().ShowValidationMessage(true).Label()
+</div>
+<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.Line2).Placeholder().ShowValidationMessage(true).Label().Class("sr-only")
+</div>
+<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.Line3).Placeholder().ShowValidationMessage(true).Label().Class("sr-only")
+</div>
+<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.Line4).Placeholder().ShowValidationMessage(true).Label().Class("sr-only")
+</div>
+<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.Line5).Placeholder().ShowValidationMessage(true).Label().Class("sr-only")
+</div>
+@*<div class="form-group">
+    @Html.Bootstrap().TextBoxFor(m => m.PostCode).Placeholder().ShowValidationMessage(true).Label().Class("sr-only")
+</div>*@
+@*<div class="form-group">
+    @Html.Bootstrap().DropDownListFor(m => m.CountryId, countries).OptionLabel("Select Country").ShowValidationMessage(true).Label().Class("sr-only")
+</div>*@

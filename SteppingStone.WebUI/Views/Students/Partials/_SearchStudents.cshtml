@@ -1,0 +1,35 @@
+﻿@using SteppingStone.Domain;
+@model SteppingStone.WebUI.Models.Students.SearchStudentsModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Students")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.ParentName).Placeholder().PrependIcon("glyphicon glyphicon-user")
+        @*@Html.Bootstrap().DropDownListFromEnumFor(m => m.Stream).OptionLabel("Select Stream")*@
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.ClassLevel, Model.ClassLevels.Select(x => new SelectListItem { Value = x.ClassLevelId.ToString(), Text = x.GetClass() })).OptionLabel("Select Class Level")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.Term, Model.Terms.Select(x => new SelectListItem { Value = x.TermId.ToString(), Text = x.GetTerm() })).OptionLabel("Select Term")
+    </div>
+    <div class="filter-panel" style="margin-left: 0px">
+        @Html.Bootstrap().DropDownListFor(m => m.StudyMode, Model.StudyModes.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Study Mode")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.Status, Model.Statuses.Select(x => new SelectListItem { Value = x, Text = x })).OptionLabel("Select Status")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().CheckBoxFor(m => m.NoParents).Label().ShowRequiredStar(false)
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit").Name("method").Value("Filter")
+        @Html.Bootstrap().SubmitButton().Text("Event").Class("btn-filter-submit").Name("method").Value("Event").Style(ButtonStyle.Success)
+        @Html.Bootstrap().SubmitButton().Text("Report").Class("btn-filter-submit").Name("method").Value("Report").Style(ButtonStyle.Warning)
+
+    </div>
+    }
+</div>

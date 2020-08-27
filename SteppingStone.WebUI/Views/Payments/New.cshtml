@@ -1,0 +1,90 @@
+﻿@model SteppingStone.WebUI.Models.Payments.PaymentViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.PaymentId > 0) {
+        cancel_url = Url.Action("Show", new { PaymentId = Model.PaymentId });
+        action = "Update";
+        buttonText = "Update Payment";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Payment";
+    }
+    else {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Payment";
+        instr = "Complete the form below and click Create to add a new Payment";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Payment";
+    }
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+
+            @using (var f = Html.Bootstrap().Begin(new Form(action))) {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.PaymentId)
+
+                        <fieldset>
+                            <legend>General details</legend>
+                            
+                            @f.FormGroup().DropDownListFor(m => m.StudentId, Model.Students.Select(x => new SelectListItem { Value = x.StudentId.ToString(), Text = x.CurrentLevelId.HasValue ? string.Format("{0} - {1}", x.FullName, x.CurrentLevel.GetClass()) : x.FullName })).OptionLabel("Select Pupil").Prepend(Html.Bootstrap().ActionLink("New", "New", "Students")) 
+                            @f.FormGroup().DropDownListFor(m => m.ClassLevelId, Model.Classes.Select(x => new SelectListItem { Value = x.ClassLevelId.ToString(), Text = x.GetClass() })).OptionLabel("Select Class").Prepend(Html.Bootstrap().ActionLink("New", "New", "Classes")) 
+                            @f.FormGroup().DropDownListFor(m => m.TermId, Model.Terms.Select(x => new SelectListItem { Value = x.TermId.ToString(), Text = x.GetTerm() })).OptionLabel("Select Term").Prepend(Html.Bootstrap().ActionLink("New", "New", "Terms")) 
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Payment details</legend>
+                            @f.FormGroup().EditorFor(m => m.Date)
+                            @f.FormGroup().DropDownListFor(m => m.BankId, Model.Banks.Select(x => new SelectListItem { Value = x.BankId.ToString(), Text = x.Name })).OptionLabel("Select Bank").Prepend(Html.Bootstrap().ActionLink("New", "New", "Banks")) 
+                            @f.FormGroup().EditorFor(m => m.Amount)
+                            @*@f.FormGroup().TextBoxFor(m => m.SlipNo).Placeholder().HtmlAttributes(new { type = "number" })
+                            @f.FormGroup().DropDownListFor(m => m.Method, Model.Methods().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Payment Method")
+                            @f.FormGroup().TextBoxFor(m => m.PaidInBy).Placeholder()*@
+                        </fieldset>                        
+                    </div>
+
+
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+}
+
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+@if (Model.PaymentId > 0) {
+    Html.RenderAction("GetBreadcrumb", new { PaymentId = Model.PaymentId });
+    <li class="active">Edit Payment</li>
+}
+else {    
+    <li>@Html.ActionLink("Payments", "Index")</li>
+    <li class="active">New Payment</li>
+}
+}

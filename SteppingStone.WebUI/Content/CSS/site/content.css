@@ -1,0 +1,476 @@
+﻿body {
+}
+
+.link {
+    cursor: pointer;
+}
+
+/* Dashboard Icons */
+.dashboard-tr-ico {
+	
+	font-size: 38px;
+	padding-bottom: 20px;
+}
+
+.dashboard-tr-desc {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.dashboard-tr-num {
+    font-size: 28px;
+    font-weight: 500;
+    color: #D3D3D3;
+}
+
+.dashboard-tr-new {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #DC0900;
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 10px;
+    vertical-align: top;
+}
+
+
+.dashboard-tr-item {
+	color: #000000;
+	/*padding-top: 20px;
+	padding-bottom: 20px;*/    
+	display: block;
+}
+
+.dashboard-tr-item:hover {
+	color: #464646;
+	text-decoration: none;
+}
+
+.dashboard-tr {
+	/*padding-top: 20px;*/
+	padding-bottom: 50px;
+}
+
+.dashboard-row {
+	margin-top: 60px;
+}
+
+/* Summary panel */ 
+
+.panel-summary {
+    border: 1px solid #ddd;
+    padding: 25px;
+    margin-bottom: 35px;
+}
+
+.panel-summary-addon {
+    margin-top: -35px;
+    margin-bottom: 35px;
+    background-color: #eee;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-top: 0;
+}
+.panel-summary-addon.bg-danger {
+    background-color: #f2dede;
+}
+.panel-summary-addon.bg-success {
+    background-color: #dff0d8;
+}
+
+@media (min-width: 768px) {
+    .panel-summary, .panel-summary-addon {
+        border-width: 4px;
+    }
+    .panel-summary-addon {
+        margin-top: -38px;
+    }
+    .panel-summary .table-responsive {
+        margin-left: -25px;
+        margin-right: -25px;
+    }
+}
+
+.panel-summary-addon p:last-child {
+    margin: 0;
+}
+
+.form-heading,
+.panel-summary > h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    font-size: 1.2em;
+}
+
+@media (min-width: 768px) {
+    .panel-summary .dl-horizontal dt {
+        width: 40%;
+        padding-bottom: 10px;
+        text-overflow: unset;
+        overflow: visible;
+        white-space: normal;
+    }
+
+    .panel-summary .dl-horizontal dd {
+        margin-left: calc(40% + 20px);
+        padding-bottom: 10px;
+    }
+}
+
+/* Form container */
+
+.form-container .form-submit {
+    margin-bottom: 0px;
+    margin-top: 50px;
+}
+
+.form-container .form-footer .btn {
+    font-size: inherit;
+    font-weight: bold;
+}
+
+.form-container h4 {
+    margin: 35px 0 20px 0;
+    font-size: inherit;
+    font-weight: bold;
+}
+
+.form-container .sub-labels .control-label {
+    font-weight: normal !important;
+}
+
+.form-spacer {
+    margin-bottom: 35px;
+}
+
+.form-light-bg .panel-attachment {
+    margin-top: 25px;
+    padding-top: 5px;
+    border-top: dotted 1px #ccc;
+    font-size: .7em;
+    color: #666;
+}
+
+.form-light-bg .panel-moreinfo {
+    font-size: .85em;
+    /*margin-top: 15px;*/
+}
+
+.form-assessment .form-group {
+    margin-bottom: 45px;
+}
+
+.input-list-container {
+    display: block;
+}
+
+.input-list-container:before,
+.input-list-container:after {
+    display: table;
+    content: " ";
+}
+
+.input-list-container:after {
+    clear: both;
+}
+
+/* Vendor upload stuff */
+.ajax-result {
+    font-size: .8em;
+}
+
+.vendor-docs {
+    margin-top: 10px;
+    font-size: .8em;
+}
+.vendor-docs > li {
+    border: solid 1px #ccc;
+    padding: 0;
+}
+.vendor-docs > li:first-child {
+    margin-left: 5px;
+} 
+.vendor-docs > li > .download-vendor-attachment,
+.vendor-docs > li > .delete-vendor-attachment {
+    display: inline-block;
+    padding: 5px 10px;
+}
+.vendor-docs > li > .delete-vendor-attachment {
+    color: inherit;
+    border-left: solid 1px #ccc;
+}
+
+@media (min-width: 768px) {
+    .form-container {
+        border: 8px solid #eee;
+        padding: 35px;
+    }
+
+    .form-assessment .form-group .panel-fields {
+        margin-left: 35px;
+        margin-right: 35px;
+        width: calc(100% - 70px);
+    }
+}
+
+.panel-moreinfo {
+    margin-top: 25px;
+}
+
+.panel-moreinfo label {
+    font-weight: normal !important;
+}
+
+.panel-documents-upload {
+    margin-top: 25px;
+}
+
+.panel-documents-upload .label-custom {
+    font-size: .85em;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.label-custom {
+    display: block;
+}
+
+.label-main {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+/* Tabs */
+.tab-content > .tab-pane {
+    padding: 35px 25px;
+    border: solid 1px #ddd;
+    border-top: 0px;
+}
+
+.tab-footer {
+    background-color: #eee;
+    padding: 15px 25px;
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-content .tab-cta {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    /* Collapsible tabs  */
+    .js-tabcollapse-panel-heading {
+        display: block;
+    }
+
+    .table-responsive .table td input[type='text'],
+    .table-responsive .table td select {
+        min-width: 125px;
+    }
+}
+
+/* Main alert */
+#alert_main {
+    margin-top: 15px;
+}
+
+/* Form spacing */
+
+.row-spacer {
+    margin-top: 15px;
+}
+.spacer-bottom {
+    margin-bottom: 20px;
+}
+
+.label-sub {
+    font-weight: normal;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+/****************** Jquery Sortable *********************/
+
+/* Grid Style */
+
+.table .sortable > .sortable-item {
+    padding: 0px;
+    position: relative;
+    border: 0px;
+}
+
+.table .sortable > .sortable-item:hover,
+.table .sortable > .sortable-item:focus {
+    border-top: 2px dashed #00adef;
+    border-bottom: 2px dashed #00adef;
+}
+
+.table .sortable > .sortable-item:active {
+    border-color: red;
+}
+
+.table .sortable .glyphicon-move {
+    background-color: white;
+    color: inherit;
+    cursor: move;
+    border: 1px #ddd solid;
+}
+
+/****************** Jquery Sortable *********************/
+
+/* Activities Table */
+
+.table-activity {
+    border: solid 1px #ddd;
+}
+.table-activity > caption {
+    padding: 7px 5px !important;
+    font-weight: normal;
+}
+.table-activity td {
+    padding: 5px !important;
+    border-top: solid 1px #ddd !important;
+    font-size: .9em;
+}
+.table-activity td > .foot-note,
+.table-activity td.recorded {
+    display: inline-block;
+    font-size: .9em;
+}
+
+.table-activity td > .foot-note > span + span {
+    padding-left: 10px;
+}
+.table-activity td > .foot-note > span > .fa {
+    padding-right: 5px;
+}
+
+.table-activity td.recorded {
+    font-size: .8em;
+    opacity: .8;
+    white-space: nowrap;
+}
+
+.table-activity td.recorded > span {
+    display: block;
+}
+.table-activity td.recorded > span + span {
+    margin-top: 5px;
+}
+.table-activity td.recorded > span > .fa {
+    padding-right: 5px;
+}
+
+/* Specifics for charts */
+
+.chart-filters input[type="text"].form-control {
+    height: 36px !important;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+/* Login partial */
+
+#login-name {
+    color: white;
+    position: absolute;
+    right: 0px;
+    top: -25px;
+    background-color: #a7c227 /*#e0144e*/;
+    padding: 5px 10px;
+    font-size: .9em;
+    font-weight: bold;
+}
+
+.scrolled #login-name { 
+    display: none;
+}
+
+@media (max-width: 992px) {
+    #login-name {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-size: .8em;
+    }
+}
+
+/* Custom */
+
+.pad-left {
+    padding-left: 15px;
+}
+
+.pad-top {
+    padding-top: 20px;
+}
+
+.margin-left {
+    margin-left: 20px;
+}
+
+@media (max-width: 767px) {
+    .pad-top-xs {
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .col-xs-6 {
+        width: 100%;
+    }
+    .col-xs-6.text-right {
+         text-align: left;
+    }
+}
+
+.status-block {
+    display: inline-block;
+    padding: 3px 10px;
+    color: white;
+}
+.status-block.bg-danger {
+    background-color: #e0144e;
+}
+.status-block.bg-warning {
+    background-color: #f0ad4e;
+}
+.status-block.bg-success {
+    background-color: #5cb85c;
+}
+.status-block.bg-info {
+    background-color: #5bc0de;
+}
+
+.text-danger {
+    color: red;
+}
+
+/* More info */
+
+.more-info {
+    margin-top: 10px;
+    display: block;
+    color: #666;
+}
+
+/* Show answers */
+
+.panel-sections .list-group-item .fa {
+    position: absolute;
+    left: calc(100% - 30px); 
+    font-size: 18px;
+}
+

@@ -1,0 +1,10 @@
+﻿@model MagicApps.Models.PagingInfo
+
+<div class="clearfix">
+    <div class="pull-right">
+        <div class="pagination-panel">
+            <div class="pagination-labels">@(Model.TotalItems > 0 ? Model.ItemsFrom : 0) to @Model.ItemsTo of @Model.TotalItems @Model.Term</div>
+            @Html.PageLinks(Model, x => Url.Action(Model.Action, Model.Controller, new { page = x }))
+        </div>
+    </div>
+</div>

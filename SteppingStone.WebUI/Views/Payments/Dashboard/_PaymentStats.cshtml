@@ -1,0 +1,134 @@
+﻿@model SteppingStone.WebUI.Models.Payments.PaymentStatsModel
+@{ 
+    int completion = (int)Model.Completion();
+}
+
+<!-- TOP ROW OF ICONS -->
+<div class="row dashboard-tr">
+    <div class="col-xsm-6 col-sm-4 col-md-2 col-md-offset-1 text-center">
+        <a class="dashboard-tr-item" href="">
+            <div class="dashboard-tr-ico">
+                <i class="fa fa-money"></i>
+            </div>
+            <div class="dashboard-tr-desc">
+                Total Payments
+            </div>
+            <div class="dashboard-tr-num">
+                <span>@Model.TotalCollections.ToString("n0") /=</span>
+            </div>
+        </a>
+    </div>
+    <div class="col-xsm-6 col-sm-4 col-md-2 text-center">
+        <a class="dashboard-tr-item" href="">
+            <div class="dashboard-tr-ico">
+                <i class="fa fa-signal"></i>
+            </div>
+            <div class="dashboard-tr-desc">
+                Term Payments
+            </div>
+            <div class="dashboard-tr-num">
+                @Model.TotalPayments().ToString("n0")/= <div class="dashboard-tr-new">+2 new</div><br>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xsm-6 col-sm-4 col-md-2 text-center">
+        <a class="dashboard-tr-item" href="">
+            <div class="dashboard-tr-ico">
+                <i class="fa fa-balance-scale"></i>
+            </div>
+            <div class="dashboard-tr-desc">
+                Term Balance
+            </div>
+            <div class="dashboard-tr-num">
+                @Model.TotalBalance().ToString("n0")/= <br>
+            </div>
+        </a>
+    </div>
+    <div class="col-xsm-6 col-sm-4 col-md-2 text-center">
+        <a class="dashboard-tr-item" id="yearBtn" href="#">
+            <div class="dashboard-tr-ico">
+                <i class="fa fa-group"></i>
+            </div>
+            <div class="dashboard-tr-desc">
+                Total Pupils
+            </div>
+            <div class="dashboard-tr-num">
+                <span>@Model.TotalStudents().ToString("n0")</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="col-xsm-6 col-sm-4 col-md-2 text-center">
+        <a class="dashboard-tr-item" href="">
+            <div class="dashboard-tr-ico">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="dashboard-tr-desc">
+                Total Parents
+            </div>
+            <div class="dashboard-tr-num">
+                @Model.TotalParents.ToString("n0")
+            </div>
+        </a>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="@Url.Action("Index", "Payments")" class="stats-card">
+                    @Model.Total()
+                    <div class="stats-card-label">
+                        Payments
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <a href="@Url.Action("Index", "Payments")" class="stats-card">
+                    @Model.FullPayments()
+                    <div class="stats-card-label">
+                        Complete Payments
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <a href="@Url.Action("Index", "Payments")" class="stats-card">
+                    @Model.IsPortion()
+                    <div class="stats-card-label">
+                        Installments
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 hidden-xs">
+                <div class="stats-card">
+                    <div class="stats-knob">
+                        <input type="text" value="@completion" class="dial">
+                    </div>
+                    <div class="stats-card-label">
+                        Completion
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="col-md-6 col-md-offset-1">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <caption>Latest Payment Updates for @Model.Term.GetTerm()</caption>
+                <tbody>
+                    @foreach (var item in Model.GetLatest()) {
+                        string css = item.GetStatusCssClass();
+                        ButtonStyle button_css = SteppingStone.WebUI.Infrastructure.Helpers.PaymentHelper.GetButtonStyle(css);
+                        <tr class="@css">
+                            <td class="col-sm-1">@Html.Bootstrap().ActionLinkButton(item.GetStatus(), "Show", "Payments").RouteValues(new { PaymentId = item.PaymentId }).Style(button_css).ButtonBlock()</td>
+                            <td>@string.Format("{0} for pupil: {1}", item.GetAmount(), item.Student.FullName)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

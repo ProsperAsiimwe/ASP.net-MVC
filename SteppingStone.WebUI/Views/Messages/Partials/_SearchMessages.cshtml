@@ -1,0 +1,18 @@
+﻿@model SteppingStone.WebUI.Models.Messages.SearchMessagesModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Messages")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Description).Placeholder().PrependIcon("glyphicon glyphicon-clock")
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.StartDate)  
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.EndDate)
+    </div>   
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

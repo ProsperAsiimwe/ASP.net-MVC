@@ -1,0 +1,14 @@
+﻿@model SteppingStone.Domain.Enums.PerformanceScale
+@{
+    string fieldName = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var icon = Html.Bootstrap().Icon("glyphicon glyphicon-ok");
+}
+
+<tr>
+    <td>
+        @Html.DisplayNameFor(m => m)
+    </td>
+    <td class="col-sm-1 text-center">@if (Model == SteppingStone.Domain.Enums.PerformanceScale.Yes) { @icon }</td>
+    <td class="col-sm-1 text-center">@if (Model == SteppingStone.Domain.Enums.PerformanceScale.No) { @icon }</td>
+    <td class="col-sm-1 text-center">@if (Model == SteppingStone.Domain.Enums.PerformanceScale.N_A) { @icon }</td>
+</tr>

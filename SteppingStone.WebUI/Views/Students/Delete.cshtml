@@ -1,0 +1,66 @@
+﻿@model SteppingStone.Domain.Entities.Student
+@{
+    ViewBag.Title = "Terminate Student";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Are you sure you want to do this?</p>
+    </div>
+</section>
+
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-danger panel">
+                    <div class="panel-heading">
+                        Terminate Student
+                    </div>
+                    <div class="panel-body">
+                        By doing this you'll terminate parents and delete any payment, event records that have been provided for this pupil.
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Pupil's Name</div>
+                            <div class="col-sm-8">@Model.FullName</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Current Class</div>
+                            <div class="col-sm-8">@Model.CurrentLevel.GetClass()</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Age</div>
+                            <div class="col-sm-8">@Model.Age</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Gender</div>
+                            <div class="col-sm-8">@Model.Sex</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Total Payments</div>
+                            <div class="col-sm-8">@Model.Payments.Sum(x => x.Amount).ToString("n0")/=</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Destroy", "Students", new { StudentId = Model.StudentId })) {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("Terminate Student").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-remove")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Close", "Show").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { StudentId = Model.StudentId })
+    <li class="active">Terminate Student</li>
+}
+

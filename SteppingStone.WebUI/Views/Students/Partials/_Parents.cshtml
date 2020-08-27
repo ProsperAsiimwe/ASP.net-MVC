@@ -1,0 +1,44 @@
+﻿@model SteppingStone.Domain.Entities.Student
+@{
+//ViewBag.Title = string.Format("Land titles for {0}", Model.FullName);
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>No of Pupils</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Last Reminder</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Parents.Count > 0)
+            {
+                foreach (var item in Model.Parents.Select(x => x.Parent))
+                {
+                    string css = item.GetStatusCssClass();
+                    ButtonStyle button_css = SteppingStone.WebUI.Infrastructure.Helpers.StudentHelper.GetButtonStyle(css);
+                    <tr class="@css">
+                        <td class="col-sm-1">@Html.Bootstrap().ActionLinkButton("View", "Show", "Parents").RouteValues(new { ParentId = item.ParentId }).Style(ButtonStyle.Success)</td>
+                        <td>@item.FullName</td>
+                        <td>@item.Students.Count</td>
+                        <td>@item.FormatAddress(",")</td>
+                        <td>@item.GetContact()</td>
+                        <td>@InputHelper.ParseDate(item.RemindDate, "ddd, dd MMM yyyy")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">0 Parents associated with this Student</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

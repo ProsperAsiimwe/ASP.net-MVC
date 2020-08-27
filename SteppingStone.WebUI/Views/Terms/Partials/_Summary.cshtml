@@ -1,0 +1,20 @@
+﻿@model SteppingStone.Domain.Entities.Term
+
+<aside class="panel-summary">
+    <h3>Term details</h3>
+    <dl class="dl-horizontal">
+        <dt>Term Period</dt>
+        <dd>@Model.TermPeriod</dd>
+        <dt>@Html.DisplayNameFor(m => m.StartDate)</dt>
+        <dd>@InputHelper.ParseDate(Model.StartDate, "ddd, dd MMM yyyy")</dd>
+        <dt>@Html.DisplayNameFor(m => m.EndDate)</dt>
+        <dd>@InputHelper.ParseDate(Model.EndDate, "ddd, dd MMM yyyy")</dd>
+        <dt>@Html.DisplayNameFor(m => m.IsCurrentTerm)</dt>
+        <dd>@InputHelper.ParseBool(Model.IsCurrentTerm)</dd>
+        <dt>@Html.DisplayNameFor(m => m.Payments)</dt>
+        <dd>@Model.Payments.Sum(x => x.Amount).ToString("n0")/=</dd>      
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

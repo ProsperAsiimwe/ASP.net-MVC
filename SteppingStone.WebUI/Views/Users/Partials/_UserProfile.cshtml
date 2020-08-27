@@ -1,0 +1,29 @@
+﻿@model SteppingStone.WebUI.Models.Users.NewUserViewModel
+@{ 
+    string cancel_url, buttonText;
+
+    if (!string.IsNullOrEmpty(Model.UserId)) {
+        cancel_url = Url.Action("Show", new { id = Model.UserId });
+        buttonText = "Update Profile";
+    }
+    else {
+        cancel_url = Url.Action("Index");
+        buttonText = "Create User";
+    }
+}
+@using (var f = Html.Bootstrap().Begin(new Form("UpdateProfile", "Users").LabelWidthSm(4).InputWidthSm(6))) {
+    <div class="container">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UserId)
+
+        @Html.ValidationSummary(true)
+
+        @f.FormGroup().DropDownListFor(m => m.TitleId, Model.Titles.Select(x => new SelectListItem { Value = x, Text = x })).OptionLabel("Select title")
+        @f.FormGroup().TextBoxFor(m => m.FirstName).Placeholder()
+        @f.FormGroup().TextBoxFor(m => m.LastName).Placeholder()
+        @f.FormGroup().TextBoxFor(m => m.Email).Placeholder()
+        @f.FormGroup().CheckBoxFor(m => m.Activate)
+
+        @f.FormGroup().Class("submit-panel").CustomControls(Html.Bootstrap().SubmitButton().ButtonBlock().Style(ButtonStyle.Primary).Text(buttonText))
+    </div>
+}

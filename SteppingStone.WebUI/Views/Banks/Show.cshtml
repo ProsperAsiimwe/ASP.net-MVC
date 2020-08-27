@@ -1,0 +1,49 @@
+﻿@model SteppingStone.Domain.Entities.Bank
+@{
+    ViewBag.Title = "Bank: " + Model.Name;
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Bank">Bank Details</a></li>
+            @*<li><a data-toggle="tab" href="#parents"><span class="label label-success">@Model.Payments.Count()</span> Payment(s)</a></li>*@
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Bank" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    @Html.Partial("Partials/_Summary", Model)
+                </div>
+            </div>
+            @*<div id="parents" class="tab-pane fade">
+                <div class="tabs-content">
+                   @Html.Partial("Partials/_Parents", Model)
+                </div>
+            </div>*@
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { BankId = Model.BankId })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Edit Bank", "Edit").RouteValues(new { BankId = Model.BankId }).AppendIcon("fa fa-edit")</li>
+<li>@Html.Bootstrap().ActionLink("Delete Bank", "Delete").RouteValues(new { BankId = Model.BankId }).AppendIcon("fa fa-remove")</li>
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Banks_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { BankId = Model.BankId, mainAsLink = false })
+}
+

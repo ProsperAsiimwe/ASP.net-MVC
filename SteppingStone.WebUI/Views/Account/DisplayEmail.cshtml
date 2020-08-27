@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Thank you for Registering";
+    string environment = Settings.ENVIRONMENT;
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewBag.Title.</h1>
+        <p class="lead">Please check your email and confirm your email address by clicking the Activation link.</p>
+    </div>
+</div>
+
+@if (environment == "Development") {
+<section>
+    <div class="container content">
+        <p class="text-danger">
+            For DEMO only: You can click this link to confirm the email: <a href="@ViewBag.Link">link</a>
+            Please change this code to register an email service in IdentityConfig to send an email.
+        </p>
+    </div>
+</section>
+}

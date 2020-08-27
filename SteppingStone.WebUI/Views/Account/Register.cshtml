@@ -1,0 +1,28 @@
+﻿@model SteppingStone.WebUI.Models.Account.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>Complete the form below and click register to signup for an account. After you submit you will receive an activation link to confirm your identity</p>
+    </div>
+</div>
+
+<section class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <section class="form-standard">
+                @Html.Partial("Partials/_Register", Model)
+            </section>
+            <p>
+                @Html.Bootstrap().ActionLinkButton("Back to login", "Login").PrependIcon("glyphicon glyphicon-log-in").Size(ButtonSize.Small)
+            </p>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

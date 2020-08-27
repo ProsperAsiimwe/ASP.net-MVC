@@ -1,0 +1,50 @@
+﻿@model SteppingStone.Domain.Entities.Message
+@{
+    ViewBag.Title = "Message: " + Model.MessageId;
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Message">Message Details</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Message" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.Partial("Partials/_Summary", Model)
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { MessageId = Model.MessageId })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Menu {
+@if (!Model.Sent.HasValue)
+{
+    <li>@Html.Bootstrap().ActionLink("Delete Message", "Delete").RouteValues(new { MessageId = Model.MessageId }).AppendIcon("fa fa-remove")</li>
+    <li>@Html.Bootstrap().ActionLink("Edit Message", "Edit").RouteValues(new { MessageId = Model.MessageId }).AppendIcon("fa fa-edit")</li>
+}
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Messages_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { MessageId = Model.MessageId, mainAsLink = false })
+}
+

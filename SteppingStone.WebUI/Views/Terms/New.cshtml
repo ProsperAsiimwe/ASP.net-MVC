@@ -1,0 +1,89 @@
+﻿@model SteppingStone.WebUI.Models.Terms.TermViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.TermId > 0) {
+        cancel_url = Url.Action("Show", new { TermId = Model.TermId });
+        action = "Update";
+        buttonText = "Update Term";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Term";
+    }
+    else {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Term";
+        instr = "Complete the form below and click Create to add a new Term";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Term";
+    }
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+
+            @using (var f = Html.Bootstrap().Begin(new Form(action))) {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.TermId)
+
+                        <fieldset>
+                            <legend>Term details</legend>
+                            <div class="alert alert-warning">
+                                Specify the term opening and closing dates
+                            </div>
+                            @f.FormGroup().EditorFor(x => x.StartDate)           
+                            @f.FormGroup().EditorFor(x => x.EndDate)               
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>... details</legend>
+                            <div class="alert alert-danger">
+                                If this is the current term, check this
+                            </div>
+                            <br />
+                            @f.FormGroup().EditorFor(x => x.IsCurrentTerm)                         
+                            @f.FormGroup().DropDownListFor(m => m.Position, Model.Positions().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Term Period")                            
+                        </fieldset>                       
+                    </div>
+
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+}
+
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+@if (Model.TermId > 0) {
+    Html.RenderAction("GetBreadcrumb", new { TermId = Model.TermId });
+    <li class="active">Edit Term</li>
+}
+else {    
+    <li>@Html.ActionLink("Terms", "Index")</li>
+    <li class="active">New Term</li>
+}
+}

@@ -1,0 +1,21 @@
+﻿@model SteppingStone.WebUI.Models.Terms.SearchTermsModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Terms")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-clock")
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.StartDate)  
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.EndDate)
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.Period, Model.Periods().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Term Period")
+    </div>    
+    <div class="filter-panel" style="margin-left:0">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

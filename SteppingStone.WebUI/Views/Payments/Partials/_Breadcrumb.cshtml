@@ -1,0 +1,13 @@
+﻿@model SteppingStone.Domain.Entities.Payment
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+    var payid = string.Format("Ref #{0}", Model.PaymentId);
+}
+
+<li>@Html.ActionLink("Payments", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(payid, "Show", new { PaymentId = Model.PaymentId })</li>
+}
+else {
+    <li class="active">@payid</li>
+}

@@ -1,0 +1,93 @@
+﻿@model SteppingStone.WebUI.Models.Events.EventViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.EventId > 0)
+    {
+        cancel_url = Url.Action("Show", "Events", new { EventId = Model.EventId });
+        action = "Update";
+        buttonText = "Updated Event";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Event";
+    }
+    else
+    {
+        cancel_url = Url.Action("Index", "Events");
+        action = "Create";
+        buttonText = "Create Event";
+        instr = "Complete the form below and click Create to add a new Event";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Event";
+    }
+}
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+            @using (var f = Html.Bootstrap().Begin(new Form(action)))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.EventId)
+                        <fieldset>
+                            <legend>Event details</legend>
+                            @f.FormGroup().TextBoxFor(m => m.Name).Placeholder()
+                            @f.FormGroup().EditorFor(m => m.EventDate)
+                            <div class="alert alert-warning">
+                                Specify date you wish to notify parents
+                            </div>
+                            @f.FormGroup().EditorFor(m => m.NotificationDate)
+                            
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>... details</legend>
+                            @f.FormGroup().TextAreaFor(m => m.Description).Placeholder("Enter upto 160 Characters")
+                            <span id="lblCharCount">160 Characters left</span>
+                            <br />
+                            <br />
+                            @if (!Model.IsEmpty())
+                            {
+                                @f.FormGroup().EditorFor(m => m.Cancel)
+                            }
+                            @f.FormGroup().EditorFor(m => m.IsGeneral)
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/admin/characters.js"></script>
+}
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+    @if (Model.EventId > 0)
+    {
+        Html.RenderAction("GetBreadcrumb", new { EventId = Model.EventId });
+        <li class="active">Edit Event</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Events", "Index")</li>
+        <li class="active">New Event</li>
+    }
+}

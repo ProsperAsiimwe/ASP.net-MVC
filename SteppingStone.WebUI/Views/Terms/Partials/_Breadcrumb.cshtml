@@ -1,0 +1,12 @@
+﻿@model SteppingStone.Domain.Entities.Term
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+}
+
+<li>@Html.ActionLink("Terms", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.GetTerm(), "Show", new { TermId = Model.TermId })</li>
+}
+else {
+    <li class="active">@Model.GetTerm()</li>
+}

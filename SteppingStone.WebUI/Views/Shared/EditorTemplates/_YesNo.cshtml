@@ -1,0 +1,3 @@
+﻿@model bool?
+
+@Html.Bootstrap().RadioButtonListFor(m => m, FormHelper.YesNo(), value => value.Key, text => text.Value).SelectedValues(selected => selected.Key == Model).DisplayInColumns(2, 100)

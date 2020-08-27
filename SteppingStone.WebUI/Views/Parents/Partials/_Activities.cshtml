@@ -1,0 +1,27 @@
+﻿@model IEnumerable<SteppingStone.Domain.Entities.Activity>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Recorded</th>
+                <th>By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.ActivityId</td>
+                    <td>@item.Title</td>
+                    <td>@Html.Raw(item.Description.Replace(Environment.NewLine, "<br />"))</td>
+                    <td>@InputHelper.ParseDate(item.Recorded, "dd/MM/yyyy HH:mm")</td>
+                    <td>@(item.RecordedBy != null ? item.RecordedBy.FullName : "System")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<p>@Model.Count() records</p>

@@ -1,0 +1,44 @@
+﻿@model SteppingStone.Domain.Entities.ClassLevel
+@{
+//ViewBag.Title = string.Format("Land titles for {0}", Model.FullName);
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Class</th>
+                <th>Term Payments (Ugx)</th>
+                <th>Status</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Students.Count > 0)
+            {
+                foreach (var item in Model.Students)
+                {
+                    string css = item.GetStatusCssClass();
+                    ButtonStyle button_css = SteppingStone.WebUI.Infrastructure.Helpers.ParentHelper.GetButtonStyle(css);
+                    <tr class="@css">
+                        <td class="col-sm-1">@Html.Bootstrap().ActionLinkButton("View", "Show").RouteValues(new { StudentId = item.StudentId }).Style(ButtonStyle.Success)</td>
+                        <td>@item.FullName</td>
+                        <td>@item.Age</td>
+                        <td>@item.CurrentLevel.GetClass()</td>
+                        <td>@item.StudentTermPaymentsTotal().ToString("n0")/=</td>
+                        <td>@item.GetStatus()</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">0 Students associated with this Parent</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

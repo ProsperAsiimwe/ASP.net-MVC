@@ -1,0 +1,10 @@
+﻿@model SteppingStone.Domain.Enums.PerformanceScale
+
+<tr>
+    <td>
+        @Html.DisplayNameFor(m => m)
+    </td>
+    <td colspan="3" class="col-sm-4">
+        @Html.Bootstrap().RadioButtonListFor(m => m, FormHelper.YesNoNA(), value => value.Key, text => text.Value).SelectedValues(x => x.Key == (int)Model).AsButtonGroup(ButtonStyle.Default).ShowValidationMessage(true)
+    </td>
+</tr>

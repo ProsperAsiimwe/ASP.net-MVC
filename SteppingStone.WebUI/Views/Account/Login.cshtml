@@ -1,0 +1,21 @@
+﻿@using SteppingStone.WebUI.Models.Account
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_Console.cshtml";
+    string companyName = Settings.COMPANY_NAME;
+}
+
+<div class="login-page">
+    <div class="login-form">
+        <div class="text-center">
+            <img src="~/Content/Imgs/ss_logo.png" class="login-logo" alt="@companyName" />
+            @*<h1>@Settings.COMPANY_NAME</h1>*@
+        </div>
+        @Html.Partial("Partials/_Login", Model)
+    </div>
+</div>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/account/login-fix.js"></script>
+}

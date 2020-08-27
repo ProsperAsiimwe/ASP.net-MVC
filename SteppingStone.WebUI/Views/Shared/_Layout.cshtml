@@ -1,0 +1,186 @@
+﻿@{ 
+    string companyName = Settings.COMPANY_NAME;
+    string subNavLabel = ViewBag.SubNavLabel ?? "Actions";
+    bool isAuthenticated = (User.Identity.IsAuthenticated);
+    bool isAdmin = (isAuthenticated) && (PageData["isAdmin"]);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - @Settings.COMPANY_NAME</title>
+    @Html.Partial("Layout/_Head")
+    @RenderSection("Header", required: false)
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <!-- Static navbar -->
+            <nav class="navbar @(isAdmin ? "admin" : "") navbar-default navbar-expand-md">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">@*<span class="brand">@Settings.COMPANY_ABBR</span>*@<img src="~/Content/Imgs/ss_logo.png" alt="@companyName" /></a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        @if (isAuthenticated) {
+                            Html.RenderPartial("Layout/_NavAdmin");
+                            Html.RenderPartial("Layout/_NavLogin");
+                        }
+                        
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </nav>
+        </div>
+    </div>
+    @if (IsSectionDefined("Menu")) {
+        <div class="sub-navigation">
+            <div class="container">
+                @subNavLabel: <a class="subnav-btn visible-xs pull-right">+</a>
+                <ul>
+                    @RenderSection("Menu", required: false)
+                </ul>
+            </div>
+        </div>
+    }
+@if (IsSectionDefined("BreadcrumbDark")) {
+    <div class="breadcrumb-dark">
+        <div class="container">
+            <ol class="breadcrumb">
+                @if (isAuthenticated) {
+                    <li>@Html.ActionLink("Home", "Index", "Account")</li>
+                }
+                else {
+                    <li>@Html.ActionLink("Home", "Index", "References")</li>
+                }
+                @RenderSection("BreadcrumbDark", required: false)
+            </ol>
+        </div>
+    </div>
+}
+else if (IsSectionDefined("BreadcrumbLight")) {
+    <div class="breadcrumb-light">
+        <div class="container">
+            <ol class="breadcrumb">
+                @if (isAuthenticated) {
+                    <li>@Html.ActionLink("Home", "Index", "Account")</li>
+                }
+                else {
+                    <li>@Html.ActionLink("Home", "Index", "References")</li>
+                }
+                @RenderSection("BreadcrumbLight", required: false)
+            </ol>
+        </div>
+    </div>
+}
+
+    <main>
+        @if (TempData["success"] != null || TempData["error"] != null) {
+            <div class="container">
+                @if (TempData["success"] != null) {
+                    <div id="alert_main" class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @Html.Raw(TempData["success"])
+                    </div>
+                }
+                else if (TempData["error"] != null) {
+                    <div id="alert_main" class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @Html.Raw(TempData["error"])
+                    </div>
+                }
+            </div>
+        }
+
+        @RenderBody()
+        @using (var modal = Html.Bootstrap().Begin(new Modal().Id("action-modal").Closeable()))
+        {
+            @modal.Header("New")
+
+            <div id="action-modal-content" class="modal-body"></div>
+        }
+    </main>
+
+    <div class="mobile-subnav"></div>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <h2>Links</h2>
+                    <ul>
+                        @if (isAuthenticated) {
+                            <li>@Html.ActionLink("Payments", "Index", "Payments")</li>
+                            <li>@Html.ActionLink("Pupils", "Index", "Pupils")</li>
+                            <li>@Html.ActionLink("Parents", "Index", "Parents")</li>
+                        }
+                        
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <h2>@Settings.COMPANY_ABBR</h2>
+                    <p>@Html.Raw(string.Join("<br />", Settings.COMPANY_ADDRESS))</p>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="footer-contact">
+                        <img src="~/Content/Imgs/email.png" alt="Email"> @Html.EmailLink(Settings.COMPANY_EMAIL)
+                    </div>
+                    <div class="footer-contact">
+                        <img src="~/Content/Imgs/phone.png" alt="Phone"> @Settings.COMPANY_PHONE
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <br><Br>
+                    Copyright &copy; @DateTime.Today.Year, @Settings.COMPANY_NAME
+                </div>
+                <div class="col-sm-6 text-right">
+                    @*<img src="~/Content/Imgs/ss_logo.png" alt="@companyName" class="footer-logo" />*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("Layout/_Scripts")
+    @RenderSection("scripts", required: false)
+
+    <div id="resultLoading" style="display: none; width: 100%; height: 100%; position: fixed; z-index: 10000; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;">
+        <div style="width: 340px; height: 200px; text-align: center; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto; z-index: 10; color: rgb(255, 255, 255);">
+            <div class="uil-default-css">
+                <img src="~/Content/Imgs/boxgif.gif" style="max-width: 150px; max-height: 150px; display: block; margin-left: auto; margin-right: auto;" />
+            </div>
+            <div class="loader-text" style="display: block; font-size: 18px; font-weight: 300;">&nbsp;</div>
+        </div>
+        <div style="background: rgb(0, 0, 0); opacity: 0.6; width: 100%; height: 100%; position: absolute; top: 0px;"></div>
+    </div>
+
+    <div id="loader" style="position:fixed;left:1px;top:1px;width: 100%;height: 100%;z-index: 9999;background: url('~/Content/Imgs/boxgif.gif') 50% 50% no-repeat rgb(249,249,249);">
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    // With the element initially shown, we can hide it slowly:
+
+    $("#loader").fadeOut(1000);
+    var showLoader = function (text) {
+        $('#resultLoading').show();
+        $('#resultLoading').find('.loader-text').html(text);
+    };
+
+    jQuery(document).ready(function () {
+        jQuery(window).on("beforeunload ", function () {
+            showLoader('Loading, please wait...');
+
+        });
+    });
+</script> 

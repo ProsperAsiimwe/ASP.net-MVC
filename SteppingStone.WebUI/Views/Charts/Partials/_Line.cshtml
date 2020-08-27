@@ -1,0 +1,38 @@
+﻿@using SteppingStone.WebUI.Models.Dashboard
+@model ActivitiesModel
+@{
+    var readings = Model.Readings.ToList();
+    if (Model.Readings.Count() == 1) {
+        readings.Insert(0, new MagicApps.Models.AjaxItem { name = Model.StartDate.Value.AddDays(-1).ToString("yyyy-MM-dd"), count = 0 });
+    }
+    Random rand = new Random();
+    string result = string.Format("[{0}]", string.Join(",", readings.OrderBy(o => o.name).Select(x => string.Format("{0}", x.count)).ToArray()));
+    int adminId = Model.AdminId.HasValue ? Model.AdminId.Value : 0;
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        <p>An error has occurred: @Model.ErrorMessage</p>
+    </div>
+}
+  
+<div class="graph-dark">
+    <h2>@Model.Total Activities over @Model.Duration() days</h2>
+    <div id="activity-chart" class="row margin-bottom-15 chart-filters" data-adminId="@adminId">
+        <div class="col-sm-5">
+            @Html.EditorFor(m => m.StartDate)
+        </div>
+        <div class="col-sm-5">
+            @Html.EditorFor(m => m.EndDate)
+        </div>
+        <div class="col-sm-2">
+            <button id="btn-activity" class="btn btn-info btn-block">Filter</button>
+        </div>
+    </div>
+    <div class="sparkline" data-type="line" data-resize="true" data-height="270" data-width="100%" data-line-width="3" data-line-color="#C6C6C6" data-spot-color="" data-fill-color="" data-highlight-line-color="#9ca2c4" data-highlight-spot-color="#3D456F" data-min-spot-color="" data-max-spot-color="" data-spot-radius="6"
+         id="chart" data-data="@result">
+    </div>
+</div>
+
+

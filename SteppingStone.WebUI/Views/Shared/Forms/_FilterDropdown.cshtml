@@ -1,0 +1,25 @@
+﻿@model FilterDropdownModel
+@{ 
+    string fieldId = string.Format("filter-{0}", Model.FieldName.ToLower());
+    SelectListItem selectedItem = Model.ItemList.FirstOrDefault(x => !string.IsNullOrEmpty(Model.SelectedValue) && x.Value.ToLower() == Model.SelectedValue.ToLower());
+}
+
+<div class="filter-panel">
+    <input type="hidden" name="@Model.FieldName" id="@fieldId" value="@Model.SelectedValue" />
+    <div class="dropdown filter-dropdown">
+        <div class="filter-btn dropdown-toggle btn" data-toggle="dropdown">
+            <div class="filter-ico">
+                <img src="~/Content/Imgs/filter.png" alt="Filter icon" />
+            </div>
+            <span>Filter by @(selectedItem != null ? selectedItem.Text : Model.Label)</span>
+            <i class="caret"></i>
+        </div>
+
+        <ul class="dropdown-menu scrollable-menu" data-key="@fieldId">
+            @foreach (var item in Model.ItemList) {
+                <li><a href="javascript://" data-value="@item.Value">@item.Text</a></li>
+            }
+            <li class="text-muted"><a href="javascript://" data-value="">Remove filter</a></li>
+        </ul>
+    </div>
+</div>

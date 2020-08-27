@@ -1,0 +1,17 @@
+﻿@model SteppingStone.WebUI.Models.Account.ResetPasswordViewModel
+
+@using (var f = Html.Bootstrap().Begin(new Form().Type(FormType.Horizontal).LabelWidthMd(4).InputWidthMd(8))) {
+    <div>
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Code)
+        @Html.HiddenFor(model => model.Verb)
+
+        @f.FormGroup().TextBoxFor(m => m.Email).Placeholder("Enter your email address").HelpText("We will send the verification link to this address, please make sure you type it correctly")
+        @f.FormGroup().PasswordFor(m => m.Password).Placeholder("Enter a password").HelpText("Enter a password that is memorable but is at least 8 characters in length and contains at least one number")
+        @f.FormGroup().PasswordFor(m => m.ConfirmPassword).Placeholder("Enter the password again")
+
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).Text(Model.Verb + " Password").ButtonBlock().AppendIcon("glyphicon glyphicon-thumbs-up"))
+    </div>
+}

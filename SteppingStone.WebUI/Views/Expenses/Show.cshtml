@@ -1,0 +1,55 @@
+﻿@model SteppingStone.Domain.Entities.Expense
+@{
+    ViewBag.Title = "Expense: " + Model.By;
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
+                <h1>@ViewBag.Title</h1>
+            </div>
+            <div class="col-sm-3">
+                @Html.Bootstrap().Button().Text("Edit Expense").Style(ButtonStyle.Primary).AppendIcon("fa fa-edit").Class("edit-expense").Data(new { ExpenseId = Model.ExpenseId })
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Expense">Expense Details</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Expense" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    @Html.Partial("Partials/_Summary", Model)
+                </div>
+            </div>        
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { ExpenseId = Model.ExpenseId })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@using (var modal = Html.Bootstrap().Begin(new Modal().Id("action-modal").Closeable()))
+{
+    @modal.Header("Expense")
+
+    <div id="action-modal-content" class="modal-body"></div>
+}
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Delete Expense", "Delete").RouteValues(new { ExpenseId = Model.ExpenseId }).AppendIcon("fa fa-remove").HtmlAttributes(new { style = "color:red;" })</li> 
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Expenses_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { ExpenseId = Model.ExpenseId, mainAsLink = false })
+}
+
+

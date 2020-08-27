@@ -1,0 +1,5 @@
+﻿@model string[]
+
+@if (Model != null) {
+    @Html.ParseList(Model, "list-unstyled")
+}

@@ -1,0 +1,36 @@
+﻿@model SteppingStone.WebUI.Models.Payments.SearchPaymentsModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Payments")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.ParentName).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.Bank, Model.Banks.Select(x => new SelectListItem { Value = x.BankId.ToString(), Text = x.Name })).OptionLabel("Select Bank")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().DropDownListFor(m => m.ClassLevel, Model.ClassLevels.Select(x => new SelectListItem { Value = x.ClassLevelId.ToString(), Text = x.GetClass() })).OptionLabel("Select Class")
+    </div>
+    <div class="filter-panel" style="margin-left: 0px">
+        @Html.Bootstrap().DropDownListFor(m => m.Term, Model.Terms.Select(x => new SelectListItem { Value = x.TermId.ToString(), Text = x.GetTerm() })).OptionLabel("Select Term")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.SlipNo).Placeholder().PrependIcon("glyphicon glyphicon-paper")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Depositor).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.StartDate)
+    </div>
+    <div class="filter-panel" style="margin-left: 0px">
+        @Html.EditorFor(m => m.EndDate)
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

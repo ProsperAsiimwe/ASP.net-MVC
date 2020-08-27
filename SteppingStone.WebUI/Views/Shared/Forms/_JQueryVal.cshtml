@@ -1,0 +1,10 @@
+﻿@Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function () {
+        // Makes sure Chrome validates d/m/y dates correctly (Chrome uses US format, not culture of app)
+        jQuery.validator.methods["date"] = function (value, element) {
+            var dateRegex = /^(0?[1-9]\/|[12]\d\/|3[01]\/){2}(19|20)\d\d$/;
+            return this.optional(element) || dateRegex.test(value);
+        };
+    });
+</script>

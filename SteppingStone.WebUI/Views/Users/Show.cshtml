@@ -1,0 +1,52 @@
+﻿@using SteppingStone.WebUI.Infrastructure.Helpers
+@model SteppingStone.Domain.Entities.ApplicationUser
+@{
+    ViewBag.Title = "Account Details";
+    string roleName = PageData["roleName"];
+
+    //bool developer = (bool)ViewBag.Developer;
+    bool developer = User.IsInRole("Developer");
+    var helper = new UserHelper(Model);
+    string[] roles = helper.GetUserRoles();
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>Account Details for @Model.FullName</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                @Html.Partial("Partials/_Summary", Model)
+
+            </div>
+      
+        </div>
+    </div>
+</section>
+
+@section Menu {
+    <li>@Html.Bootstrap().ActionLink("Edit Profile", "Edit").RouteValues(new { id = Model.DisplayId }).AppendIcon("glyphicon glyphicon-user")</li>   
+
+    <li>@Html.Bootstrap().ActionLink("Roles", "Roles").RouteValues(new { id = Model.DisplayId }).AppendIcon("fa fa-users")</li>
+    <li>@Html.Bootstrap().ActionLink("Reset password", "ResetPassword").RouteValues(new { id = Model.DisplayId, roleName = roleName }).AppendIcon("fa fa-lock")</li>
+    <li>@Html.Bootstrap().ActionLink("Delete User", "Delete").RouteValues(new { id = Model.DisplayId }).AppendIcon("fa fa-user-times")</li>
+    @if (developer) {
+        <li>
+            @using (Html.BeginForm("Impersonate", "Account")) {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("UserId", Model.Id)
+                @Html.Bootstrap().SubmitButton().Text("Impersonate As User").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-user")
+            }
+        </li>
+    }
+    <li>@Html.Bootstrap().ActionLink("Close", "Index").RouteValues(new { roleName = roleName }).AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { roleName = roleName, displayId = Model.DisplayId, mainAsLink = false })
+}
+

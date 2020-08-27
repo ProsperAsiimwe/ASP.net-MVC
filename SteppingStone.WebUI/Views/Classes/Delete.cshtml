@@ -1,0 +1,63 @@
+﻿@model SteppingStone.Domain.Entities.ClassLevel
+@{
+    ViewBag.Title = "Delete Class";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Are you sure you want to do this?</p>
+    </div>
+</section>
+
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-danger panel">
+                    <div class="panel-heading">
+                        Delete Class
+                    </div>
+                    
+                    <div class="panel-body">
+                        <span class="label label-warning">!!!</span> By doing this you'll delete any pupil and payment records that have been provided for this Class.
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Class</div>
+                            <div class="col-sm-8">@Model.GetClass()</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Study Mode</div>
+                            <div class="col-sm-8">@Model.Mode</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Fees</div>
+                            <div class="col-sm-8">@Model.SchoolFee.ToString("n0")</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">No of Pupils</div>
+                            <div class="col-sm-8">@Model.Students.Count</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Destroy", "Classes", new { ClassLevelId = Model.ClassLevelId })) {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("Delete Class").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-remove")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Close", "Show").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { ClassLevelId = Model.ClassLevelId })
+    <li class="active">Delete Class</li>
+}
+

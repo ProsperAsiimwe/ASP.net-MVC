@@ -1,0 +1,23 @@
+﻿@{ 
+    string area = ViewBag.Area;
+}
+
+<ul class="nav navbar-nav">
+    <li class="nav-item @(area == "Account" ? "active" : "")">@Html.Bootstrap().ActionLink("Dashboard", "Index", "Account").Class("nav-link")</li>
+    <li class="nav-item @(area == "Payments" ? "active" : "")">@Html.Bootstrap().ActionLink("Payments", "Index", "Payments").Class("nav-link").RouteName("Payments_Index").PrependIcon("fa fa-money")</li>
+    <li class="nav-item @(area == "Expenses" ? "active" : "")">@Html.Bootstrap().ActionLink("Expenses", "Index", "Expenses").Class("nav-link").RouteName("Expenses_Index").PrependIcon("fa fa-download")</li>
+    <li class="nav-item @(area == "Pupils" ? "active" : "")">@Html.Bootstrap().ActionLink("Pupils", "Index", "Students").Class("nav-link").RouteName("Students_Index").PrependIcon("fa fa-graduation-cap")</li>
+    <li class="nav-item @(area == "Parents" ? "active" : "")">@Html.Bootstrap().ActionLink("Parents", "Index", "Parents").Class("nav-link").RouteName("Parents_Index").PrependIcon("fa fa-users")</li>
+    <li class="nav-item dropdown @(area == "Admin" ? "active" : "")">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">Manage</li>
+            <li>@Html.Bootstrap().ActionLink("Terms", "Index", "Terms").Class("dropdown-item").RouteName("Terms_Index").PrependIcon("fa fa-calendar")</li>
+            <li>@Html.Bootstrap().ActionLink("Classes", "Index", "Classes").Class("dropdown-item").RouteName("Classes_Index").PrependIcon("fa fa-users")</li>
+            <li>@Html.Bootstrap().ActionLink("Banks", "Index", "Banks").Class("dropdown-item").RouteName("Banks_Index").PrependIcon("fa fa-building")</li>
+            <li>@Html.Bootstrap().ActionLink("Events", "Index", "Events").Class("dropdown-item").RouteName("Events_Index").PrependIcon("fa fa-calendar-check-o")</li>
+            <li>@Html.Bootstrap().ActionLink("Messages", "Index", "Messages").Class("dropdown-item").RouteName("Messages_Index").PrependIcon("fa fa-envelope")</li>
+            <li>@Html.Bootstrap().ActionLink("Admins", "Index", "Users").Class("dropdown-item").PrependIcon("fa fa-address-card")</li>
+        </ul>
+    </li>
+</ul>

@@ -1,0 +1,59 @@
+﻿@model SteppingStone.Domain.Entities.Parent
+@{
+    ViewBag.Title = "Terminate Parent";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Are you sure you want to do this?</p>
+    </div>
+</section>
+
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-danger panel">
+                    <div class="panel-heading">
+                        Terminate Parent
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Pupil's Name</div>
+                            <div class="col-sm-8">@Model.FullName</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">No of Pupils</div>
+                            <div class="col-sm-8">@Model.Students.Count</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Contacts</div>
+                            <div class="col-sm-8">@Html.ParseList(Model.Contacts)</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Address</div>
+                            <div class="col-sm-8">@Model.FormatAddress(",")</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Destroy", "Parents", new { ParentId = Model.ParentId })) {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("Terminate Parent").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-remove")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Close", "Show").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { ParentId = Model.ParentId })
+    <li class="active">Terminate Parent</li>
+}
+

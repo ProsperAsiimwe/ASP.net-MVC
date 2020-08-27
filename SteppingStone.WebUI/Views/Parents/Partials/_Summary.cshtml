@@ -1,0 +1,35 @@
+﻿@model SteppingStone.Domain.Entities.Parent
+
+<aside class="panel-summary">
+    <h3>Parent details</h3>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.FullName)</dt>
+        <dd>@Model.FullName</dd>
+        <dt>No of Pupils</dt>
+        <dd>@Model.Students.Count</dd>
+        <dt>Telephone Contacts</dt>
+        <dd>@Html.ParseList(Model.Contacts, "list-unstyled")</dd>
+        <dt>Students</dt>
+        <dd>@Html.ParseList(Model.GetStudents(), "list-unstyled")</dd>
+        <dt>Oustanding</dt>
+        <dd>@Model.Oustanding.ToString("n0")</dd>
+        
+        <dt>Current Term Payments</dt>
+        <dd>Ugx @Model.CurrentTermPayments.ToString("n0")/=</dd>
+        
+        <dt>Total Overall Payments</dt>
+        <dd>Ugx @Model.OverallPayments.ToString("n0")/=</dd>
+
+        @if (Model.Oustanding > 0)
+        {
+            <dt>@Html.DisplayNameFor(m => m.Notified)</dt>
+            <dd>@InputHelper.ParseDate(Model.Notified, "ddd, dd MMM yyyy")</dd>
+            <dt>@Html.DisplayNameFor(m => m.RemindDate)</dt>
+            <dd>@InputHelper.ParseDate(Model.RemindDate, "ddd, dd MMM yyyy")</dd>
+        }  
+
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

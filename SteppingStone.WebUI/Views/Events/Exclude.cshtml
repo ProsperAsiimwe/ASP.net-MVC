@@ -1,0 +1,51 @@
+﻿@model SteppingStone.Domain.Entities.StudentEvent
+@{
+    ViewBag.Title = "Exclude Student";
+}
+
+<section class="section-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-danger panel">
+                    <div class="panel-heading">
+                        Exclude Student
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Event's Name</div>
+                            <div class="col-sm-8">@Model.Event.Name</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Event Date</div>
+                            <div class="col-sm-8">@InputHelper.ParseDate(Model.Event.EventDate, "ddd, dd MMM yyyy")</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Student</div>
+                            <div class="col-sm-8">@Model.Student.FullName</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Status</div>
+                            <div class="col-sm-8">@Model.Event.GetStatus()</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Remove", "Events", new { StudentEventId = Model.StudentEventId }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("Exclude Student").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-remove")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Menu {
+    <li>@Html.Bootstrap().ActionLink("Close", "Show").RouteValues(new { EventId = Model.EventId }).AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { EventId = Model.EventId })
+    <li class="active">Exclude Student</li>
+}
+

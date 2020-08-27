@@ -1,0 +1,22 @@
+﻿@model string[]
+@{ 
+    string fieldName = ViewData.TemplateInfo.HtmlFieldPrefix;
+    string fieldId = fieldName.Replace(".", "_");
+    string selected = @" checked=""checked""";
+    SelectList list = (SelectList)ViewData["list"];
+    int counter = 0;
+}
+
+<div class="row">
+    @foreach (var item in list) {
+        string itemFieldId = fieldId + "-" + counter;
+        <div class="col-sm-12 ap-switch-row">
+            <div class="switch">
+                <input name="@fieldName" value="@item.Value" id="@itemFieldId" class="cmn-toggle cmn-toggle-round" type="checkbox"@(Model.Contains(item.Value) ? Html.Raw(selected) : null) />
+                <label for="@itemFieldId"></label>
+            </div>
+            <div class="ap-checkbox-label">@item.Text</div>
+        </div>
+        counter += 1;
+    }
+</div>

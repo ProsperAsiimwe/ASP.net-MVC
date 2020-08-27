@@ -1,0 +1,33 @@
+﻿@using SteppingStone.WebUI.Infrastructure.Helpers
+@model SteppingStone.Domain.Entities.Payment
+
+<aside class="panel-summary">
+    <h3>Payment details</h3>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.Student.FullName)</dt>
+        <dd>@Html.ActionLink(Model.Student.FullName, "Show", "Students", new { StudentId = Model.StudentId }, null)</dd>
+        <dt>Term</dt>
+        <dd>@Model.Term.GetTerm()</dd>
+        <dt>Class</dt>
+        <dd>@Model.ClassLevel.GetClass()</dd>
+        <dt>@Html.DisplayNameFor(m => m.Bank.Name)</dt>
+        <dd>@Model.Bank.Name</dd>
+        <dt>@Html.DisplayNameFor(m => m.Amount)</dt>
+        <dd>@Model.GetAmount()</dd>
+        <dt>Amount in words</dt>
+        <dd>@NumberHelper.NumberToWords((int)Model.Amount) uganda Shs</dd>
+        @*<dt>@Html.DisplayNameFor(m => m.PaymentMethod)</dt>
+        <dd>@Model.PaymentMethod</dd>
+        <dt>@Html.DisplayNameFor(m => m.SlipNo)</dt>
+        <dd style="color: red">@Model.SlipNo</dd>*@
+        <dt>@Html.DisplayNameFor(m => m.Date)</dt>
+        <dd>@InputHelper.ParseDate(Model.Date, "ddd, dd MMM yyyy")</dd>
+        @*<dt>@Html.DisplayNameFor(m => m.PaidInBy)</dt>
+        <dd>@Model.PaidInBy</dd>*@
+        <dt>@Html.DisplayNameFor(m => m.Recorded)</dt>
+        <dd>@InputHelper.ParseDate(Model.Recorded, "ddd, dd MMM yyyy")</dd>
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

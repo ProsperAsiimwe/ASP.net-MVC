@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Verification Issue";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewBag.Title.</h1>
+        <p class="lead">There has been a problem verifying your account.<br />
+            Please contact the System Administrator for assistance - @Html.EmailLink(Settings.COMPANY_EMAIL)</p>
+        <p>
+            @Html.Bootstrap().ActionLinkButton("Log in", "Login", "Account").Id("loginLink").AppendIcon("glyphicon glyphicon-log-in")
+        </p>
+    </div>
+</div>

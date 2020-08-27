@@ -1,0 +1,15 @@
+﻿@model SteppingStone.WebUI.Models.Parents.SearchParentsModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Parents")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.ParentName).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>    
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

@@ -1,0 +1,12 @@
+﻿@model SteppingStone.Domain.Entities.ClassLevel
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+}
+
+<li>@Html.ActionLink("Classes", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.GetClass(), "Show", new { ClassLevelId = Model.ClassLevelId })</li>
+}
+else {
+    <li class="active">@Model.GetClass()</li>
+}

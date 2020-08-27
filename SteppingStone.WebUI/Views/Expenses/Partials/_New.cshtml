@@ -1,0 +1,48 @@
+﻿@model SteppingStone.WebUI.Models.Expenses.ExpenseViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+
+    if (Model.ExpenseId > 0)
+    {
+        cancel_url = Url.Action("Show", new { ExpenseId = Model.ExpenseId });
+        action = "Update";
+        buttonText = "Update Expense";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Expense";
+    }
+    else
+    {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Expense";
+        instr = "Complete the form below and click Create to create a new Expense";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Expense";
+    }
+}
+
+<div class="form-light-bg form-container">
+    @Html.ValidationSummary(true)
+    @using (var f = Html.Bootstrap().Begin(new Form(action).Id("expense-form")))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ExpenseId)
+        <fieldset>
+            <legend>Expense details</legend>
+            @f.FormGroup().DropDownListFor(m => m.Category, Model.Categories().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Category")
+            @f.FormGroup().EditorFor(m => m.Amount)
+            @f.FormGroup().TextAreaFor(m => m.Description).Placeholder()
+            @f.FormGroup().TextBoxFor(m => m.By).Placeholder()
+        </fieldset>
+        <div class="form-submit">
+            @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        $.validator.unobtrusive.parse("#expense-form");
+    })
+</script>

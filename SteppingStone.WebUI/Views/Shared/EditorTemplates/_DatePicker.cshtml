@@ -1,0 +1,3 @@
+﻿@model DateTime?
+
+@Html.Bootstrap().TextBoxFor(m => m).Placeholder("Date format: dd/mm/yyyy").PrependIcon("glyphicon glyphicon-calendar").Data(new { provide = "datepicker", date_format = "dd/mm/yyyy" }).Format("{0:dd/MM/yyyy}").HtmlAttributes(new { autocomplete = "off" }).ShowValidationMessage(true)

@@ -1,0 +1,25 @@
+﻿@model SteppingStone.WebUI.Models.Users.SearchUsersModel
+@{ 
+    SelectList roles = new SelectList(Model.Roles.Select(x => new KeyValuePair<string, string>(x, x)), "Key", "Value", Model.RoleName);
+}
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Users")) {
+            @*@Html.Partial("Forms/_FilterDropdown", new SteppingStone.WebUI.Models.FilterDropdownModel {
+           FieldName = "RoleName",
+           ItemList = roles,
+           Label = "Role",
+           SelectedValue = Model.RoleName
+        })*@
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Email).Placeholder().PrependIcon("glyphicon glyphicon-envelope")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+
+    }
+</div>

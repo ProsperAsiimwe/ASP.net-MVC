@@ -1,0 +1,53 @@
+﻿@model SteppingStone.Domain.Entities.Event
+@{
+    ViewBag.Title = string.Format("Event: {0} on {1}", Model.Name, Model.EventDate.Value.ToString("ddd, dd MMM yyyy"));
+    bool developer = PageData["isAdmin"];
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Event">Event Details</a></li>
+            <li><a data-toggle="tab" href="#students"><span class="label label-success">@Model.EventStudents.Count</span> Student(s)</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Event" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.Partial("Partials/_Summary", Model)
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div id="students" class="tab-pane fade">
+                <div class="tabs-content">
+                   @Html.Partial("Partials/_Students", Model)
+                </div>
+            </div>
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { EventId = Model.EventId })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Edit Event", "Edit").RouteValues(new { EventId = Model.EventId }).AppendIcon("fa fa-edit")</li>
+<li>@Html.Bootstrap().ActionLink("Delete Event", "Delete").RouteValues(new { EventId = Model.EventId }).AppendIcon("fa fa-remove")</li> 
+<li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Events_Index").AppendIcon("fa fa-window-close")</li> 
+}
+@section BreadcrumbLight {
+@Html.Action("GetBreadcrumb", new { EventId = Model.EventId, mainAsLink = false })
+}
+

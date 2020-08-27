@@ -1,0 +1,21 @@
+﻿@model SteppingStone.WebUI.Models.Events.SearchEventsModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Events")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Description).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.StartDate)
+    </div>
+    <div class="filter-panel">
+        @Html.EditorFor(m => m.EndDate)
+    </div>
+    <div class="filter-panel" style="margin-left: 0px">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

@@ -1,0 +1,13 @@
+﻿@model SteppingStone.Domain.Entities.Expense
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+
+}
+
+<li>@Html.ActionLink("Expenses", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.By, "Show", new { ExpenseId = Model.ExpenseId, })</li>
+}
+else {
+    <li class="active">@Model.By</li>
+}

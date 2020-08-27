@@ -1,0 +1,69 @@
+﻿@model SteppingStone.WebUI.Models.Dashboard.DashboardModel
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Random random = new Random();
+
+    int completed = random.Next(25, 99);
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>Welcome to @Settings.COMPANY_NAME</h1>
+        <p>Below is a summary of activity and records requiring action</p>
+        @if (Model.TermId.HasValue)
+        {
+            @Html.Bootstrap().ActionLinkButton("End Term", "End", "Terms").RouteValues(new { TermId = Model.TermId }).Style(ButtonStyle.Primary).AppendIcon("fa fa-calendar")
+        }
+    </div>
+</section>
+
+<div class="dashboard-statistics">
+    <div class="container">
+        @Html.Action("GetPaymentStats", "Payments")
+    </div>
+</div>
+
+<div class="section-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-activity">
+                        <caption>Latest Activity</caption>
+                        <tbody>
+                            @foreach (var item in Model.GetLatestActivity())
+                            {
+                                <tr>
+                                    <td>
+                                        <p>@Html.Raw(item.Description.Replace(Environment.NewLine, "<br />"))</p>
+                                    </td>
+                                    <td class="recorded">
+                                        <span class="date"><i class="fa fa-calendar-o"></i>@item.Recorded.ToString("dd/MM/yyyy HH:mm")</span>
+                                        <span class="user"><i class="fa fa-user"></i>@(item.RecordedBy != null ? item.RecordedBy.FullName : "System")</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6" id="panel-activity">
+                @Html.Action("ActivityAsLine", "Charts")
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section BreadcrumbLight {
+    <li class="active">Dashboard</li>
+}
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("New Payment", "New", "Payments").AppendIcon("fa fa-money")</li> 
+<li><a href="#" id="new-expense">New Expense <i class="fa fa-download"></i></a></li>
+<li>@Html.Bootstrap().ActionLink("New Pupil", "New", "Students").AppendIcon("fa fa-graduation-cap")</li> 
+<li>@Html.Bootstrap().ActionLink("New Parent", "New", "Parents").AppendIcon("fa fa-user")</li> 
+<li>@Html.Bootstrap().ActionLink("New Term", "New", "Terms").AppendIcon("fa fa-calendar")</li>
+
+}

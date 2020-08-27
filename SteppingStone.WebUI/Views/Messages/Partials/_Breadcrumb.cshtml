@@ -1,0 +1,12 @@
+﻿@model SteppingStone.Domain.Entities.Message
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+}
+
+<li>@Html.ActionLink("Messages", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.MessageId.ToString(), "Show", new { MessageId = Model.MessageId })</li>
+}
+else {
+    <li class="active">@Model.MessageId.ToString()</li>
+}

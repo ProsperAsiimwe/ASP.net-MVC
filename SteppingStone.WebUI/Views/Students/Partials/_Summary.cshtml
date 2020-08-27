@@ -1,0 +1,25 @@
+﻿@model SteppingStone.Domain.Entities.Student
+
+<aside class="panel-summary">
+    <h3>Pupil details</h3>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.FullName)</dt>
+        <dd>@Model.FullName</dd>
+        <dt>@Html.DisplayNameFor(m => m.DOB)</dt>
+        <dd>@InputHelper.ParseDate(Model.DOB, "ddd, dd MMM yyyy")</dd>
+        <dt>Age</dt>
+        <dd>@Model.Age</dd>
+        <dt>@Html.DisplayNameFor(m => m.Gender)</dt>
+        <dd>@Model.Sex</dd>
+        <dt>@Html.DisplayNameFor(p => p.Stream)</dt>
+        <dd>@Model.Stream.ToString()</dd>
+        <dt>Term</dt>
+        <dd>@Model.GetCurrentTerm()</dd>
+        <dt>Class</dt>
+        <dd>@Model.CurrentLevel.GetClass()</dd>
+        <dt>Parents</dt>
+        <dd>@Html.ParseList(Model.GetParents(), "list-unstyled")</dd>
+        
+        
+    </dl>
+</aside>

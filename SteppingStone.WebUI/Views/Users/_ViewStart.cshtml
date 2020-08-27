@@ -1,0 +1,7 @@
+﻿@using SteppingStone.WebUI.Infrastructure.Helpers
+@{
+    PageData["roleName"] = (this.ViewContext.RouteData.Values["roleName"] != null ? this.ViewContext.RouteData.Values["roleName"].ToString() : "admins");
+    PageData["roleTitle"] = InputHelper.PCase(UserHelper.SingulariseRoleName(PageData["roleName"]));
+    PageData["pageTitle"] = InputHelper.PCase(PageData["roleName"]);
+}
+

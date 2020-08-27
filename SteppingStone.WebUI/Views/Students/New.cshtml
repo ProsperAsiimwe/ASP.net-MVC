@@ -1,0 +1,122 @@
+﻿@model SteppingStone.WebUI.Models.Students.StudentViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+
+    if (Model.StudentId > 0)
+    {
+        cancel_url = Url.Action("Show", new { StudentId = Model.StudentId });
+        action = "Update";
+        buttonText = "Update Student";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update Student";
+    }
+    else
+    {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create Student";
+        instr = "Complete the form below and click Create to add a new Student";
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "New Student";
+    }
+}
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+            @using (var f = Html.Bootstrap().Begin(new Form(action).HtmlAttributes(new { enctype = "multipart/form-data" })))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.StudentId)
+                        <fieldset>
+                            <legend>Student details</legend>                            
+                            @f.FormGroup().TextBoxFor(m => m.FirstName).Placeholder()
+                            @f.FormGroup().TextBoxFor(m => m.LastName).Placeholder()
+                            @f.FormGroup().EditorFor(m => m.DOB)
+                            @f.FormGroup().DropDownListFor(m => m.Gender, Model.Genders().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Gender")
+                            @f.FormGroup().DropDownListFor(m => m.CurrentLevelId, Model.ClassLevels.Select(x => new SelectListItem { Value = x.ClassLevelId.ToString(), Text = x.GetClass() })).OptionLabel("Select Class Level").Prepend(Html.Bootstrap().ActionLink("New", "New", "Classes"))
+                            @if (Model.ShowEnrollOption)
+                            {
+                                @f.FormGroup().EditorFor(p => p.Enroll)
+                            }
+                            @*@f.FormGroup().DropDownListFromEnumFor(p => p.Stream)*@
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Student details</legend>
+                            @f.FormGroup().EditorFor(m => m.RegistrationFee)
+                            @f.FormGroup().EditorFor(m => m.Uniforms)
+                            @f.FormGroup().EditorFor(m => m.Medical)
+                            @f.FormGroup().EditorFor(m => m.BreaktimeFee)
+                            @f.FormGroup().EditorFor(m => m.ClubFee)
+                            @f.FormGroup().EditorFor(m => m.Transport)
+                            @f.FormGroup().EditorFor(m => m.Swimming)
+                        </fieldset>
+                        <fieldset>
+                            <legend>Display Picture</legend>
+
+                            <div class="btn-file-panel">
+                                @f.FormGroup().FileFor(m => m.Dp).HtmlAttributes(new { onchange = "preview_images();" })
+                                <div class="row" id="image_preview">
+                                    @if (!string.IsNullOrEmpty(Model.DisplayPic))
+                                    {
+                                        <div class='col-md-3'><img class='img-responsive' src="@Url.Content(string.Format("~/Content/Imgs/{0}", Model.DisplayPic))"></div>
+                                    }
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/admin/nursery.js"></script>
+    <script>
+        function preview_images()
+        {
+
+         var total_file=document.getElementById("Dp").files.length;
+         for(var i=0;i<total_file;i++)
+         {
+             $('#image_preview').empty();
+             $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+         }
+        }
+    </script>
+}
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+    @if (Model.StudentId > 0)
+    {
+        Html.RenderAction("GetBreadcrumb", new { StudentId = Model.StudentId });
+        <li class="active">Edit Student</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Students", "Index")</li>
+        <li class="active">New Student</li>
+    }
+}
+

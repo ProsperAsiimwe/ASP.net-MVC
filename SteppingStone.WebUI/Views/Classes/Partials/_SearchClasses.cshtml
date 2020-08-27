@@ -1,0 +1,18 @@
+﻿@model SteppingStone.WebUI.Models.ClassLevels.SearchClassesModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Classes")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-user")
+    </div>    
+    <div class="filter-panel" style="margin-right:20px;">
+        @Html.Bootstrap().DropDownListFor(m => m.StudyMode, Model.StudyModes().Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value })).OptionLabel("Select Study Mode")
+    </div>
+    <div style="padding-top:20px">
+        @Html.Bootstrap().RadioButtonsFromEnumFor(m => m.Level).DisplayInlineBlock().Label().Class("sr-only")
+    </div>    
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

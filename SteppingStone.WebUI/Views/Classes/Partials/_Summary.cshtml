@@ -1,0 +1,28 @@
+﻿@model SteppingStone.Domain.Entities.ClassLevel
+
+<aside class="panel-summary">
+    <h3>Class details</h3>
+    <dl class="dl-horizontal">
+        <dt>Class</dt>
+        <dd>@Model.GetClass()</dd>
+        <dt>@Html.DisplayNameFor(m => m.StudyMode)</dt>
+        <dd>@Model.Mode</dd>
+        <dt>@Html.DisplayNameFor(m => m.SchoolFee)</dt>
+        <dd>@Model.SchoolFee.ToString("n0")</dd>
+        <dt>@Html.DisplayNameFor(m => m.SchoolLevel)</dt>
+        <dd>@Model.SchoolLevel</dd>
+        <dt>@Html.DisplayNameFor(m => m.Updated)</dt>
+        <dd>@InputHelper.ParseDate(Model.Updated, "ddd, dd MMM yyyy")</dd>
+        <dt>@Html.DisplayNameFor(m => m.Added)</dt>
+        <dd>@InputHelper.ParseDate(Model.Added, "ddd, dd MMM yyyy")</dd>
+        <dt>No of Pupils</dt>
+        <dd>@Model.Students.Count</dd>
+        <dt>Current Term Payments</dt>
+        <dd>@Model.TotalRevenue.ToString("n0")/=</dd>
+        <dt>Last Payment</dt>
+        <dd>@Model.GetLastPayDate()</dd>        
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

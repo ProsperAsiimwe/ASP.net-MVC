@@ -1,0 +1,62 @@
+﻿@model SteppingStone.Domain.Entities.Term
+@{
+    ViewBag.Title = "End Term";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Are you sure you want to do this?</p>
+    </div>
+</section>
+
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-warning panel">
+                    <div class="panel-heading">
+                        End Term
+                    </div>
+                    <div class="panel-body">
+                        By doing this, any balance for pupils will be added to their overrall outstanding.
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Term</div>
+                            <div class="col-sm-8">@Model.GetTerm()</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Term Period</div>
+                            <div class="col-sm-8">@Model.TermPeriod</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Payments</div>
+                            <div class="col-sm-8">@Model.Payments.Sum(x => x.Amount).ToString("n0")/=</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Term Balance</div>
+                            <div class="col-sm-8">@InputHelper.ParseMoney(Model.TotalBalance)</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Ended", "Terms", new { TermId = Model.TermId })) {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("End Term").Style(ButtonStyle.Warning).AppendIcon("glyphicon glyphicon-thumbs-down")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Close", "Show").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { TermId = Model.TermId })
+    <li class="active">End Term</li>
+}
+

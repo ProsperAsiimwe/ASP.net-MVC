@@ -1,0 +1,13 @@
+﻿@model SteppingStone.Domain.Entities.ApplicationUser
+@{ 
+    bool mainAsLink = ViewBag.MainAsLink;
+    string roleName = ViewBag.RoleName;
+}
+<li>@Html.ActionLink("Admin", "Index")</li>
+<li>@Html.ActionLink(InputHelper.PCase(roleName), "Index", new { roleName = roleName })</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.FullName, "Show", new { roleName = roleName, id = Model.DisplayId })</li>
+}
+else {
+    <li class="active">@Model.FullName</li>
+}

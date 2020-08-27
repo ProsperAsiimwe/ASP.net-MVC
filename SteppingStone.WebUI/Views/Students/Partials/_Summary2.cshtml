@@ -1,0 +1,33 @@
+﻿@model SteppingStone.Domain.Entities.Student
+
+<aside class="panel-summary">
+    <h3>Fees details</h3>
+    <dl class="dl-horizontal">
+        <dt>School Fees</dt>
+        <dd>@Model.CurrentLevel.SchoolFee.ToString("n0")/=</dd>
+        <dt>Transport Fee</dt>
+        <dd>@Model.Transport.ToString("n0")/=</dd>
+        <dt>Swimming</dt>
+        <dd>@Model.Swimming.ToString("n0")/=</dd>
+        <dt>Medical Fees</dt>
+        <dd>@Model.Medical.ToString("n0")/=</dd>
+        <dt>Club Fee</dt>
+        <dd>@Model.ClubFee.ToString("n0")/=</dd>
+        <dt>Breaktime Fee</dt>
+        <dd>@Model.BreaktimeFee.ToString("n0")/=</dd>
+        <hr />
+        <dt>Current Term Payments</dt>
+        <dd>Ugx @Model.StudentTermPaymentsTotal().ToString("n0")/=</dd>
+        @if (Model.HasOutstanding)
+        {
+            <dt>Total Oustanding</dt>
+            <dd>Ugx @Model.Outstanding.ToString("n0")/=</dd>
+        }
+        
+        <dt>Total Overall Payments</dt>
+        <dd>Ugx @Model.Total.ToString("n0")/=</dd>
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

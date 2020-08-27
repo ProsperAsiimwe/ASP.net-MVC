@@ -1,0 +1,16 @@
+﻿@model SteppingStone.Domain.Entities.Bank
+
+<aside class="panel-summary">
+    <h3>Bank details</h3>
+    <dl class="dl-horizontal">
+        <dt>Bank</dt>
+        <dd>@Model.Name</dd>
+        <dt>@Html.DisplayNameFor(m => m.AccountNo)</dt>
+        <dd>@Model.AccountNo</dd>
+        <dt>Total Payments</dt>
+        <dd>@Model.Payments.Sum(x => x.Amount).ToString("n0")/=</dd>      
+        <dt>Current Term Payments</dt>
+        <dd>@Model.TermPayments.Sum(x => x.Amount).ToString("n0")/=</dd>  
+        
+    </dl>
+</aside>

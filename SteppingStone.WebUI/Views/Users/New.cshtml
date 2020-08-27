@@ -1,0 +1,114 @@
+﻿@model SteppingStone.WebUI.Models.Users.ProfileViewModel
+@{
+    string action, cancel_url, buttonText, instr, glyph;
+    bool isAdmin = PageData["isAdmin"];
+    string roleName = PageData["roleName"];
+    string roleTitle = PageData["roleTitle"];
+
+    if (!string.IsNullOrEmpty(Model.UserId)) {
+        cancel_url = Url.Action("Show", new { id = Model.User.DisplayId, roleName = roleName });
+        action = "Update";
+        buttonText = "Update Profile";
+        instr = "Modify the details and click Update to apply changes";
+        glyph = "glyphicon glyphicon-thumbs-up";
+        ViewBag.Title = "Update " + roleTitle;
+    }
+    else {
+        cancel_url = Url.Action("Index");
+        action = "Create";
+        buttonText = "Create " + roleTitle;
+        instr = "Complete the form below and click Create to create a new " + roleTitle;
+        glyph = "glyphicon glyphicon-plus";
+        ViewBag.Title = "Create " + roleTitle;
+    }
+
+    // If user access, change the return url
+    if (!isAdmin) {
+        cancel_url = Url.Action("Index", "Account");
+    }
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p>
+            @instr
+        </p>
+    </div>
+</div>
+<div class="section-light">
+    <div class="container">
+        <div class="form-light-bg form-container">
+            @Html.ValidationSummary(true)
+
+            @using (var f = Html.Bootstrap().Begin(new Form(action))) {
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.UserId)
+
+                        <fieldset>
+                            <legend>Personal details</legend>
+                            <div class="alert alert-warning @(roleName == "admins" ? "hide" : "")">
+                                Enter the name as it appears on the users passport
+                            </div>
+                            @f.FormGroup().DropDownListFor(m => m.TitleId, Model.Titles.Select(x => new SelectListItem { Value = x, Text = x })).OptionLabel("Select title")
+                            @f.FormGroup().TextBoxFor(m => m.FirstName).Placeholder()
+                            @f.FormGroup().TextBoxFor(m => m.LastName).Placeholder()
+                            <div class="@(roleName == "admins" ? "hide" : "")">
+                                @f.FormGroup().EditorFor(m => m.DOB)
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <fieldset>
+                            <legend>Contact details</legend>
+                            @f.FormGroup().EditorFor(m => m.Phone)
+                            @f.FormGroup().EditorFor(m => m.Email)
+                        </fieldset>
+                        @if (isAdmin && !string.IsNullOrEmpty(Model.UserId) && Model.UserId != Model.EditUserId) {
+                            <fieldset>
+                                <legend>Activate user</legend>
+                                <div class="alert alert-warning">
+                                    Activating a user will grant them access to the system so they can use @Settings.COMPANY_ABBR services.
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.Activate)
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+
+
+                </div>
+                <div class="form-submit">
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Default).ButtonBlock().Text(buttonText).AppendIcon(glyph)
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+}
+
+@section Menu {
+    <li><a href="@cancel_url">Cancel <i class="fa fa-window-close"></i></a></li>
+}
+@section BreadcrumbLight {
+@if (isAdmin) {
+    <li>@Html.Bootstrap().ActionLink("Admin", "Index", "Admin")</li>
+    <li>@Html.ActionLink(roleTitle, "Index")</li>
+    if (!string.IsNullOrEmpty(Model.UserId)) {
+        <li>@Html.ActionLink(string.Format("{0} {1}", Model.FirstName, Model.LastName), "Show", new { id = Model.User.DisplayId, roleName = roleName })</li>
+        <li class="active">Edit @roleTitle</li>
+    }
+    else {
+        <li class="active">New @roleTitle</li>
+    }
+}
+else {
+    <li class="active">User Profile</li>
+}
+}

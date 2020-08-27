@@ -1,0 +1,12 @@
+﻿@model SteppingStone.WebUI.Models.Banks.SearchBanksModel
+
+<div class="filters">
+    @using (Html.BeginForm("Index", "Banks")) {
+    <div class="filter-panel">
+        @Html.Bootstrap().TextBoxFor(m => m.Name).Placeholder().PrependIcon("glyphicon glyphicon-clock")
+    </div>   
+    <div class="filter-panel">
+        @Html.Bootstrap().SubmitButton().Text("Filter").Class("btn-filter-submit")
+    </div>
+    }
+</div>

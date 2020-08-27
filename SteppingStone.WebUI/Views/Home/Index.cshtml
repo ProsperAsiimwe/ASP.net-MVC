@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Welcome to " + Settings.COMPANY_NAME;
+    Layout = "~/Views/Shared/_Console.cshtml";
+    string companyName = Settings.COMPANY_NAME;
+}
+
+<div class="login-page">
+    <div class="login-form">
+        <div class="text-center">
+            <img src="~/Content/Imgs/ss_logo.png" class="login-logo" alt="@companyName" />
+            @*<h1>@Settings.COMPANY_NAME</h1>*@
+        </div>
+        @Html.Action("GetLoginForm", "Account")
+    </div>
+</div>
+@section Scripts {
+}

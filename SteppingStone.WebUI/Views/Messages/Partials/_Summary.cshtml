@@ -1,0 +1,16 @@
+﻿@model SteppingStone.Domain.Entities.Message
+
+<aside class="panel-summary">
+    <h3>Message details</h3>
+    <dl class="dl-horizontal">
+        <dt>Message</dt>
+        <dd>@Model.MessageDescription</dd>
+        @*<dt>@Html.DisplayNameFor(m => m.StartDate)</dt>
+        <dd>@InputHelper.ParseDate(Model.StartDate, "ddd, dd MMM yyyy")</dd>*@
+        <dt>@Html.DisplayNameFor(m => m.Scheduled)</dt>
+        <dd>@InputHelper.ParseDate(Model.Scheduled, "ddd, dd MMM yyyy")</dd>            
+        <dt>Status</dt>
+        <dd><span class="status-block bg-@Model.GetStatusCssClass()">@Model.GetStatus()</span></dd>
+        
+    </dl>
+</aside>

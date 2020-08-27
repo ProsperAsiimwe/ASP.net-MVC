@@ -1,0 +1,84 @@
+﻿@model SteppingStone.Domain.Entities.Student
+@{
+    ViewBag.Title = Model.FullName;
+    bool developer = PageData["isAdmin"];
+    bool addMargin = !string.IsNullOrEmpty(Model.Dp);
+    var classValue = addMargin ? "student-name" : "";
+}
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            @if (addMargin)
+            {
+                <div class="col-sm-3">
+                    <img class="pupil-dp" src="@Url.Content(string.Format("~/Content/Imgs/{0}", Model.Dp))">
+                </div>
+            }
+            <div class="col-sm-9">
+                <h1 class=@classValue>@ViewBag.Title</h1>
+                <p>Since @InputHelper.ParseDate(Model.Joined) .</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<section class="section-light">
+    <div class="container">
+        <ul class="nav nav-tabs" id="app-details">
+            <li class="active"><a data-toggle="tab" href="#Student">Student Details</a></li>
+            <li><a data-toggle="tab" href="#parents"><span class="label label-success">@Model.Parents.Count</span> Parent(s)</a></li>
+            <li><a data-toggle="tab" href="#activities">Activities</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Student" class="tab-pane fade in active">
+                <div class="tabs-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.Partial("Partials/_Summary", Model)
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Partial("Partials/_Summary2", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="parents" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Partial("Partials/_Parents", Model)
+                </div>
+            </div>
+            <div id="activities" class="tab-pane fade">
+                <div class="tabs-content">
+                    @Html.Action("GetActivities", new { StudentId = Model.StudentId })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Menu {
+    @if (Model.HasOutstanding && !Model.NoParents)
+    {
+        <li>@Html.Bootstrap().ActionLink("Notify Guardians", "Notify").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-phone").HtmlAttributes(new { style = "color:orange;" })</li>
+    }
+    <li>@Html.Bootstrap().ActionLink("Update Student", "Edit").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-edit")</li>
+    <li>@Html.Bootstrap().ActionLink("Add Parent", "New", "Parents").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-user")</li>
+    <li>@Html.Bootstrap().ActionLink("New Payment", "New", "Payments").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-money")</li>
+    @if (Model.Terminated.HasValue)
+    {
+        <li>@Html.Bootstrap().ActionLink("Restore Studentship", "Restore").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-plus")</li>
+    }
+    else
+    {
+        <li>@Html.Bootstrap().ActionLink("Terminate Student", "Delete").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-remove").HtmlAttributes(new { style = "color:red;" })</li>
+    }
+    @*@if (Model.CurrentTermId.HasValue && !Model.CurrentTerm.IsCurrentTerm)
+        {
+            <li>@Html.Bootstrap().ActionLink("Enroll to Current Term", "Enroll", "Students").RouteValues(new { StudentId = Model.StudentId }).AppendIcon("fa fa-money")</li>
+        }*@
+    <li>@Html.Bootstrap().ActionLink("Close", "Index").RouteName("Students_Index").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { StudentId = Model.StudentId, mainAsLink = false })
+}
+
+

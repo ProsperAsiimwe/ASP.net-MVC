@@ -1,0 +1,50 @@
+﻿@model SteppingStone.Domain.Entities.Event
+@{
+//ViewBag.Title = string.Format("Land titles for {0}", Model.FullName);
+}
+
+
+<div class="table-responsive">
+    <div style="height: 1000px; overflow-y: auto; overflow-x: hidden">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Class</th>
+                    <th>Term Payments (Ugx)</th>
+                    <th>Exclude?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.EventStudents.Count > 0)
+                {
+
+                    foreach (var mainItem in Model.EventStudents)
+                    {
+                        var item = mainItem.Student;
+                        string css = item.GetStatusCssClass();
+                        ButtonStyle button_css = SteppingStone.WebUI.Infrastructure.Helpers.EventHelper.GetButtonStyle(css);
+                        <tr class="@css">
+                            <td class="col-sm-1">@Html.Bootstrap().ActionLinkButton("View", "Show", "Students").RouteValues(new { StudentId = item.StudentId }).Style(ButtonStyle.Success)</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Age</td>
+                            <td>@item.CurrentLevel.GetClass()</td>
+                            <td>@item.StudentTermPaymentsTotal().ToString("n0")/=</td>
+                            <td class="col-sm-1">@Html.Bootstrap().ActionLinkButton("Exclude", "Exclude").RouteValues(new { StudentEventId = mainItem.StudentEventId }).Style(ButtonStyle.Danger)</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">0 Students associated with this Parent</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+﻿@model SteppingStone.WebUI.Models.Account.RegisterViewModel
+
+@using (var f = Html.Bootstrap().Begin(new Form("Register").Type(FormType.Horizontal).LabelWidthMd(4).InputWidthMd(8))) {
+    <div>
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true)
+
+        @f.FormGroup().DropDownListFor(m => m.TitleId, Model.Titles.Select(x => new SelectListItem { Value = x.TitleId.ToString(), Text = x.TitleDescription })).OptionLabel("Select title")
+        @f.FormGroup().TextBoxFor(m => m.FirstName).Placeholder()
+        @f.FormGroup().TextBoxFor(m => m.LastName).Placeholder()
+        @f.FormGroup().TextBoxFor(m => m.Email).Placeholder("Enter your email address").HelpText("We will send the verification link to this address, please make sure you type it correctly")
+        @f.FormGroup().PasswordFor(m => m.Password).Placeholder("Enter a password").HelpText("Enter a password that is memorable but is at least 8 characters in length and contains at least one number")
+        @f.FormGroup().PasswordFor(m => m.ConfirmPassword).Placeholder("Enter the password again")
+
+        <div class="row">
+            <div class="col-md-8 col-lg-offset-4">
+                <div class="alert alert-info">
+                    <p>
+                        Once you have submitted, we will send you an <abbr title="This is a unique link sent to your email address that you must click that verifies your email address is valid">account verification link</abbr>. Click this link to move on to the next stage.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-submit">
+            @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text("Register").AppendIcon("glyphicon glyphicon-user")
+        </div>
+    </div>
+}

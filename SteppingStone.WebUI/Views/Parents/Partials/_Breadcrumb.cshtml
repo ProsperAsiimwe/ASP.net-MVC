@@ -1,0 +1,12 @@
+﻿@model SteppingStone.Domain.Entities.Parent
+@{ 
+    bool mainAsLink = (bool)ViewBag.MainAsLink;
+}
+
+<li>@Html.ActionLink("Parents", "Index")</li>
+@if (mainAsLink) {
+    <li>@Html.ActionLink(Model.FullName, "Show", new { ParentId = Model.ParentId })</li>
+}
+else {
+    <li class="active">@Model.FullName</li>
+}

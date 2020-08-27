@@ -1,0 +1,55 @@
+﻿@model SteppingStone.Domain.Entities.Expense
+@{
+    ViewBag.Title = "Delete Expense";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Are you sure you want to do this?</p>
+    </div>
+</section>
+
+<section class="section-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel-danger panel">
+                    <div class="panel-heading">
+                        Delete Expense
+                    </div>
+                    <div class="panel-item-group">
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Expense By</div>
+                            <div class="col-sm-8">@Model.By</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Amount (Ugx)</div>
+                            <div class="col-sm-8">@InputHelper.ParseMoney(Model.Amount)</div>
+                        </div>
+                        <div class="panel-item clearfix">
+                            <div class="col-sm-4 panel-item-label">Description</div>
+                            <div class="col-sm-8">@Model.Description</div>
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        @using (Html.BeginForm("Destroy", "Expenses", new { ExpenseId = Model.ExpenseId })) {
+                            @Html.AntiForgeryToken()
+                            @Html.Bootstrap().SubmitButton().Text("Delete Expense").Style(ButtonStyle.Danger).AppendIcon("glyphicon glyphicon-remove")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Menu {
+<li>@Html.Bootstrap().ActionLink("Close", "Show").AppendIcon("fa fa-window-close")</li>
+}
+@section BreadcrumbLight {
+    @Html.Action("GetBreadcrumb", new { ExpenseId = Model.ExpenseId })
+    <li class="active">Delete Expense</li>
+}
+
